@@ -1,0 +1,88 @@
+{% extends 'core/base.html' %}
+{% load static %}
+
+{% block title %}الدعم الفني | جمعية قيادة الذات{% endblock title %}
+
+{% block content %}
+<div class="container py-4">
+    <div class="text-center mb-5" data-aos="fade-up">
+        <span class="badge bg-gold text-white px-3 py-2 rounded-pill mb-2 fw-bold">
+            <i class="fas fa-headset me-1"></i> نحن هنا للمساعدة
+        </span>
+        <h2 class="fw-bold text-olive">مركز الدعم الفني والتواصل</h2>
+        <p class="text-muted">إذا كان لديك استفسار أو واجهتك أي مشكلة تقنية، يسعدنا تواصلك معنا مباشرة</p>
+    </div>
+
+    <div class="row g-4 justify-content-center">
+        <!-- معلومات التواصل -->
+        <div class="col-lg-4">
+            <div class="card border-0 shadow-sm rounded-4 p-4 h-100 bg-olive text-white">
+                <h5 class="fw-bold text-gold mb-4"><i class="fas fa-info-circle me-2 ms-1"></i> قنوات التواصل</h5>
+                
+                <div class="d-flex align-items-center mb-4">
+                    <div class="rounded-circle bg-gold bg-opacity-20 text-black p-3 me-3 ms-2">
+                        <i class="fas fa-envelope fa-lg"></i>
+                    </div>
+                    <div>
+                        <small class="d-block text-light opacity-75">البريد الإلكتروني</small>
+                        <span class="fw-bold">support@selfleadership.sa</span>
+                    </div>
+                </div>
+
+                <div class="d-flex align-items-center mb-4">
+                    <div class="rounded-circle bg-gold bg-opacity-20 text-black p-3 me-3 ms-2">
+                        <i class="fas fa-phone-alt fa-lg"></i>
+                    </div>
+                    <div>
+                        <small class="d-block text-light opacity-75">الهاتف الموحد</small>
+                        <span class="fw-bold" dir="ltr">+966 56 100 2074</span>
+                    </div>
+                </div>
+
+                <div class="d-flex align-items-center">
+                    <div class="rounded-circle bg-gold bg-opacity-20 text-black p-3 me-3 ms-2">
+                        <i class="fas fa-clock fa-lg"></i>
+                    </div>
+                    <div>
+                        <small class="d-block text-light opacity-75">أوقات العمل</small>
+                        <span class="fw-bold">الأحد - الخميس (8 ص - 4 م)</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- نموذج إرسال تذكرة / رسالة -->
+        <div class="col-lg-7">
+            <div class="card border-0 shadow-sm rounded-4 p-4 p-md-5 bg-body-tertiary">
+                <h5 class="fw-bold text-olive mb-3"><i class="fas fa-paper-plane text-gold me-2 ms-1"></i> إرسال استفسار أو بلاغ</h5>
+                <form method="post" action="">
+                    {% csrf_token %}
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <label class="form-label small fw-bold">الاسم الكامل</label>
+                            <input type="text" class="form-control rounded-3" placeholder="أدخل اسمك" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label small fw-bold">البريد الإلكتروني</label>
+                            <input type="email" class="form-control rounded-3" placeholder="name@example.com" required>
+                        </div>
+                        <div class="col-12">
+                            <label class="form-label small fw-bold">عنوان الموضوع</label>
+                            <input type="text" class="form-control rounded-3" placeholder="مشكلة تقنية / اقتراح / استفسار" required>
+                        </div>
+                        <div class="col-12">
+                            <label class="form-label small fw-bold">تفاصيل الرسالة</label>
+                            <textarea class="form-control rounded-3" rows="4" placeholder="اكتب تفاصيل استفسارك هنا..." required></textarea>
+                        </div>
+                        <div class="col-12 mt-4">
+                            <button type="submit" class="btn btn-gold text-white fw-bold px-4 py-2 rounded-3 w-100">
+                                <i class="fas fa-paper-plane me-2 ms-1"></i> إرسال الرسالة
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}

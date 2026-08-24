@@ -1,6 +1,7 @@
 {% extends 'core/base.html' %}
 
 {% block content %}
+<script src="https://www.google.com/recaptcha/api.js" async defer></script>
 <div class="container py-5">
     
     <!-- عنوان الصفحة -->
@@ -98,6 +99,9 @@
                         <div class="col-12">
                             <label class="form-label fw-semibold text-body">الرسالة</label>
                             <textarea name="message" class="form-control" rows="5" placeholder="اكتب استفسارك أو رسالتك هنا..." required></textarea>
+                        </div>
+                        <div class="col-12 mt-3">
+                            <div class="g-recaptcha" data-sitekey="6Ldh45UtAAAAAFap5jvQOAfBCgyBH3-o5ekIrPSn"></div>
                         </div>
                     </div>
 

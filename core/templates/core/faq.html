@@ -1,0 +1,82 @@
+{% extends 'core/base.html' %}
+{% load static %}
+
+{% block title %}الأسئلة الشائعة | جمعية قيادة الذات{% endblock title %}
+
+{% block content %}
+<div class="container py-4">
+    <!-- Header -->
+    <div class="text-center mb-5" data-aos="fade-up">
+        <span class="badge bg-gold text-white px-3 py-2 rounded-pill mb-2 fw-bold">
+            <i class="fas fa-question-circle me-1"></i> إجابات واستفسارات
+        </span>
+        <h2 class="fw-bold text-olive">الأسئلة الشائعة</h2>
+        <p class="text-muted">إليك إجابات لأكثر الاستفسارات شيوعاً حول المنظومة الرقمية وإدارة الخطة الشخصية</p>
+    </div>
+
+    <!-- Accordion Questions -->
+    <div class="row justify-content-center">
+        <div class="col-lg-9">
+            <div class="accordion custom-accordion" id="faqAccordion">
+
+                <!-- سُؤال 1 -->
+                <div class="accordion-item border-0 shadow-sm rounded-3 mb-3 overflow-hidden">
+                    <h2 class="accordion-header" id="headingOne">
+                        <button class="accordion-button fw-bold text-olive collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
+                            <i class="fas fa-compass me-2 text-gold ms-2"></i> ما هي منصة جمعية قيادة الذات؟
+                        </button>
+                    </h2>
+                    <div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne" data-bs-parent="#faqAccordion">
+                        <div class="accordion-body text-muted leading-relaxed">
+                            هي منظومة رقمية تفاعلية تُساعد المتدربين والأفراد على تدوين ومتابعة خططهم الشخصية عبر الـ 18 مجالاً للتطوير، ورصد مستوى التقدم والالتزام بالأهداف بشكل دوري ومنظم.
+                        </div>
+                    </div>
+                </div>
+
+                <!-- سُؤال 2 -->
+                <div class="accordion-item border-0 shadow-sm rounded-3 mb-3 overflow-hidden">
+                    <h2 class="accordion-header" id="headingTwo">
+                        <button class="accordion-button fw-bold text-olive collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                            <i class="fas fa-tasks me-2 text-gold ms-2"></i> كيف يمكنني متابعة حالة أهدافي الشخصية؟
+                        </button>
+                    </h2>
+                    <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#faqAccordion">
+                        <div class="accordion-body text-muted leading-relaxed">
+                            يمكنك الانتقال إلى "لوحة الإنجاز" أو "سجل المحاور والمجالات" وتحديث حالة كل هدف فورياً إلى (مكتمل - قيد التنفيذ - تمديد)، لتنعكس النسبة تلقائياً في مؤشراتك.
+                        </div>
+                    </div>
+                </div>
+
+                <!-- سُؤال 3 -->
+                <div class="accordion-item border-0 shadow-sm rounded-3 mb-3 overflow-hidden">
+                    <h2 class="accordion-header" id="headingThree">
+                        <button class="accordion-button fw-bold text-olive collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                            <i class="fas fa-lock me-2 text-gold ms-2"></i> هل خططي الشخصية وملاحظاتي محمية وخصوصية؟
+                        </button>
+                    </h2>
+                    <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#faqAccordion">
+                        <div class="accordion-body text-muted leading-relaxed">
+                            نعم، جميع بياناتك وخططك مشفرة ومحفوطة بأعلى معايير الأمان، ولا يمكن لأحد الاطلاع عليها سوى حسابك أو الجهة المخولة بمتابعتك برغبتك.
+                        </div>
+                    </div>
+                </div>
+
+                <!-- سُؤال 4 -->
+                <div class="accordion-item border-0 shadow-sm rounded-3 mb-3 overflow-hidden">
+                    <h2 class="accordion-header" id="headingFour">
+                        <button class="accordion-button fw-bold text-olive collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
+                            <i class="fas fa-clock me-2 text-gold ms-2"></i> ما الذي يعنيه خيار "فرص التمديد" للهدف؟
+                        </button>
+                    </h2>
+                    <div id="collapseFour" class="accordion-collapse collapse" aria-labelledby="headingFour" data-bs-parent="#faqAccordion">
+                        <div class="accordion-body text-muted leading-relaxed">
+                            يعني تمديد الوقت المحدد لإكمال الهدف لفترة إضافية عند وجود أي عوائق، لتتيح لك إحصائيات المنظومة معرفة النقاط التي تحتاج لإعادة جدولة.
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}

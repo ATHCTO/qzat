@@ -16,6 +16,9 @@ GENERAL_URLS = [
     path('goal/<int:goal_id>/toggle-complete/', views.toggle_complete_goal_view, name='toggle_complete_goal'),
     path('about/', views.about_view, name='about'),
     path('contact/', views.contact_view, name='contact'),
+    path('faq/', views.faq_view, name='faq'),
+    path('privacy/', views.privacy_view, name='privacy'),
+    path('support/', views.support_view, name='support'),
 ]
 
 APIS_URLS = []
