@@ -1,0 +1,123 @@
+{% extends 'core/base.html' %}
+
+{% block title %}لوحة الإنجاز والمتابعة{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+
+    <!-- العنوان والرأس -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h3 class="fw-bold text-body mb-1">
+                <i class="bi bi-speedometer2 text-warning me-2"></i>لوحة الإنجاز
+            </h3>
+            <p class="text-body-secondary small mb-0">متابعة شاملة ونسب تقدم التنفيذ عبر جميع المجالات والمسارات</p>
+        </div>
+    </div>
+
+    <!-- 1. بطاقات الإحصائيات السريعة -->
+    <div class="row g-3 mb-4">
+        <!-- نسبة الإنجاز الكلية -->
+        <div class="col-6 col-md-3">
+            <div class="card bg-warning-subtle border-warning-subtle shadow-sm rounded-4 p-3 text-center">
+                <div class="fs-2 fw-bold text-warning-emphasis mb-1">%{{ completion_rate }}</div>
+                <div class="text-body-secondary small fw-semibold">معدل الإنجاز العام</div>
+            </div>
+        </div>
+
+        <!-- الأهداف المكتملة -->
+        <div class="col-6 col-md-3">
+            <div class="card bg-success-subtle border-success-subtle shadow-sm rounded-4 p-3 text-center">
+                <div class="fs-2 fw-bold text-success mb-1">{{ completed_goals }}</div>
+                <div class="text-body-secondary small fw-semibold">أهداف مكتملة</div>
+            </div>
+        </div>
+
+        <!-- قيد التنفيذ -->
+        <div class="col-6 col-md-3">
+            <div class="card bg-info-subtle border-info-subtle shadow-sm rounded-4 p-3 text-center">
+                <div class="fs-2 fw-bold text-info mb-1">{{ in_progress_goals }}</div>
+                <div class="text-body-secondary small fw-semibold">قيد التنفيذ</div>
+            </div>
+        </div>
+
+        <!-- متأخرة أو قيد الانتظار -->
+        <div class="col-6 col-md-3">
+            <div class="card bg-danger-subtle border-danger-subtle shadow-sm rounded-4 p-3 text-center">
+                <div class="fs-2 fw-bold text-danger mb-1">{{ delayed_goals }}</div>
+                <div class="text-body-secondary small fw-semibold">أهداف متأخرة</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 2. شريط التقدم العام -->
+    <div class="card bg-body-tertiary border shadow-sm rounded-4 p-4 mb-4">
+        <div class="d-flex justify-content-between align-items-center mb-2">
+            <h6 class="fw-bold text-body mb-0">نسبة التقدم الكلي في الخطط</h6>
+            <span class="fw-bold text-warning-emphasis">%{{ completion_rate }}</span>
+        </div>
+        <div class="progress rounded-pill" style="height: 12px;">
+            <div class="progress-bar bg-warning progress-bar-striped progress-bar-animated" role="progressbar" style="width: {{ completion_rate }}%;"></div>
+        </div>
+    </div>
+
+    <div class="row g-4">
+        <!-- 3. نسبة الإنجاز حسب المجال -->
+        <div class="col-12 col-lg-6">
+            <div class="card bg-body-tertiary border shadow-sm rounded-4 p-4 h-100">
+                <h5 class="fw-bold text-body mb-3">
+                    <i class="bi bi-pie-chart text-warning me-2"></i>الإنجاز حسب المجالات
+                </h5>
+                <div class="d-flex flex-column gap-3">
+                    {% for domain in domains_progress %}
+                        <div>
+                            <div class="d-flex justify-content-between align-items-center small mb-1">
+                                <span class="fw-semibold text-body">{{ domain.name }}</span>
+                                <span class="text-body-secondary">{{ domain.completed }} من {{ domain.total }} هدف (%{{ domain.percentage }})</span>
+                            </div>
+                            <div class="progress rounded-pill" style="height: 8px;">
+                                <div class="progress-bar bg-success" role="progressbar" style="width: {{ domain.percentage }}%;"></div>
+                            </div>
+                        </div>
+                    {% empty %}
+                        <p class="text-body-secondary small mb-0">لا توجد مجالات مسجلة حتى الآن.</p>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+
+        <!-- 4. أحدث الأهداف المضافة -->
+        <div class="col-12 col-lg-6">
+            <div class="card bg-body-tertiary border shadow-sm rounded-4 p-4 h-100">
+                <h5 class="fw-bold text-body mb-3">
+                    <i class="bi bi-clock-history text-warning me-2"></i>آخر الأهداف المضافة
+                </h5>
+                <div class="list-group list-group-flush bg-transparent">
+                    {% for goal in recent_goals %}
+                        <div class="list-group-item bg-transparent px-0 border-bottom d-flex justify-content-between align-items-center">
+                            <div>
+                                <div class="fw-bold text-body small">{{ goal.title }}</div>
+                                <div class="text-body-secondary style-micro" style="font-size: 0.75rem;">
+                                    {{ goal.domain.name }} - {{ goal.track.name }}
+                                </div>
+                            </div>
+                            <div>
+                                {% if goal.status == 'COMPLETED' %}
+                                    <span class="badge bg-success-subtle text-success border border-success-subtle rounded-pill">مكتمل</span>
+                                {% elif goal.status == 'IN_PROGRESS' %}
+                                    <span class="badge bg-info-subtle text-info border border-info-subtle rounded-pill">قيد التنفيذ</span>
+                                {% else %}
+                                    <span class="badge bg-secondary-subtle text-secondary border border-secondary-subtle rounded-pill">{{ goal.get_status_display }}</span>
+                                {% endif %}
+                            </div>
+                        </div>
+                    {% empty %}
+                        <p class="text-body-secondary small mb-0">لا توجد أهداف مضافة حديثاً.</p>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+{% endblock %}

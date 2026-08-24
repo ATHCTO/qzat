@@ -1,0 +1,81 @@
+{% extends 'core/base.html' %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row g-4 justify-content-center">
+        
+        <!-- بطاقة المعاينة والرمز الشخصي -->
+        <div class="col-12 col-lg-4">
+            <div class="card border-0 shadow-sm rounded-4 text-center p-4 bg-body-tertiary">
+                <div class="mb-3">
+                    <div class="bg-primary text-white rounded-circle d-inline-flex align-items-center justify-content-center shadow" style="width: 100px; height: 100px; fs-1;">
+                        <i class="bi bi-person-fill fs-1"></i>
+                    </div>
+                </div>
+                <h5 class="fw-bold text-body mb-1">{{ user.get_full_name|default:user.username }}</h5>
+                <p class="text-body-secondary small mb-3">@{{ user.username }}</p>
+                
+                <hr class="my-3">
+
+                <!-- إحصائيات الطالب -->
+                <div class="row g-2 text-center">
+                    <div class="col-6">
+                        <div class="p-2 border rounded-3 bg-body">
+                            <h6 class="fw-bold text-primary mb-0">{{ total_goals }}</h6>
+                            <small class="text-body-secondary">إجمالي الأهداف</small>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="p-2 border rounded-3 bg-body">
+                            <h6 class="fw-bold text-success mb-0">{{ completed_goals }}</h6>
+                            <small class="text-body-secondary">المكتملة</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- نموذج تعديل البيانات -->
+        <div class="col-12 col-lg-8">
+            <div class="card border-0 shadow-sm rounded-4 p-4 bg-body-tertiary">
+                <h4 class="fw-bold text-body mb-4 pb-2 border-bottom">
+                    <i class="bi bi-person-gear text-primary me-2"></i> بيانات الملف الشخصي
+                </h4>
+
+                <form method="POST" action="{% url 'profile' %}">
+                    {% csrf_token %}
+
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <label class="form-label fw-semibold text-body">الاسم الأول</label>
+                            <input type="text" name="first_name" class="form-control" value="{{ user.first_name }}" required>
+                        </div>
+
+                        <div class="col-md-6">
+                            <label class="form-label fw-semibold text-body">اسم العائلة</label>
+                            <input type="text" name="last_name" class="form-control" value="{{ user.last_name }}">
+                        </div>
+
+                        <div class="col-12">
+                            <label class="form-label fw-semibold text-body">اسم المستخدم (غير قابل للتعديل)</label>
+                            <input type="text" class="form-control bg-body" value="{{ user.username }}" readonly disabled>
+                        </div>
+
+                        <div class="col-12">
+                            <label class="form-label fw-semibold text-body">البريد الإلكتروني</label>
+                            <input type="email" name="email" class="form-control" value="{{ user.email }}" required>
+                        </div>
+                    </div>
+
+                    <div class="mt-4 text-end">
+                        <button type="submit" class="btn btn-primary rounded-pill px-4 fw-bold">
+                            <i class="bi bi-check-lg me-1"></i> حفظ التغيرات
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+    </div>
+</div>
+{% endblock %}

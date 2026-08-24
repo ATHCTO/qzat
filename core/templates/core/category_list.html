@@ -1,0 +1,87 @@
+{% extends 'core/base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="text-center mb-5">
+        <h2 class="fw-bold text-warning-emphasis">محاور برنامج قيادة الذات</h2>
+        <p class="text-body-secondary fs-5">استكشف المحاور الرئيسية والمجالات التابعة لكل محور</p>
+    </div>
+    <div class="accordion d-flex flex-column gap-3" id="categoriesAccordion">
+        {% for category in categories %}
+            <div class="accordion-item border shadow-sm rounded-3 overflow-hidden">
+                <h2 class="accordion-header" id="heading-{{ category.id }}">
+                    <button class="accordion-button collapsed fs-5 fw-bold bg-body-tertiary text-body py-3" 
+                            type="button" 
+                            data-bs-toggle="collapse" 
+                            data-bs-target="#collapse-{{ category.id }}" 
+                            aria-expanded="false" 
+                            aria-controls="collapse-{{ category.id }}">
+                        
+                        <div class="d-flex align-items-center justify-content-between w-100 me-3">
+                            <div class="d-flex align-items-center gap-3">
+                                {% if category.icon %}
+                                    <i class="{{ category.icon }} text-warning fs-4"></i>
+                                {% else %}
+                                    <i class="bi bi-folder2-open text-warning fs-4"></i>
+                                {% endif %}
+                                <span>{{ category.name }}</span>
+                            </div>
+                            <span class="badge bg-warning-subtle text-warning-emphasis rounded-pill px-3 py-2 fs-6">
+                                {{ category.domains.count }} مجالات
+                            </span>
+                        </div>
+                    </button>
+                </h2>
+                <div id="collapse-{{ category.id }}" 
+                     class="accordion-collapse collapse" 
+                     aria-labelledby="heading-{{ category.id }}" 
+                     data-bs-parent="#categoriesAccordion">
+                    
+                    <div class="accordion-body bg-body p-4 border-top">
+                        
+                        {% if category.description %}
+                            <p class="text-body-secondary mb-4 fs-6">{{ category.description }}</p>
+                        {% endif %}
+                        {% if category.domains.all %}
+                            <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-3">
+                                {% for domain in category.domains.all %}
+                                    <div class="col">
+                                        <div class="card h-100 border bg-body-tertiary shadow-sm-hover">
+                                            <div class="card-body d-flex flex-column justify-content-between">
+                                                <div>
+                                                    <h6 class="card-title fw-bold text-body mb-2">
+                                                        <i class="bi bi-layers text-warning me-1"></i>
+                                                        {{ domain.name }}
+                                                    </h6>
+                                                    {% if domain.description %}
+                                                        <p class="card-text text-body-secondary small">
+                                                            {{ domain.description|truncatewords:15 }}
+                                                        </p>
+                                                    {% endif %}
+                                                </div>
+                                                <a href="{% url 'domain_tracks' domain.id %}" class="btn btn-sm btn-outline-warning rounded-pill mt-3 align-self-start fw-semibold">
+                                                    مسارات المجال <i class="bi bi-arrow-left ms-1"></i>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        {% else %}
+                            <div class="alert alert-light text-center border mb-0 text-body-secondary">
+                                لا توجد مجالات مضافة تحت هذا المحور حالياً.
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        {% empty %}
+            <div class="text-center py-5">
+                <i class="bi bi-inbox fs-1 text-body-secondary"></i>
+                <p class="text-body-secondary mt-2 fs-5">لا توجد محاور متاحة حالياً.</p>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,69 @@
+{% load static %}
+<!-- استخدام bg-body-tertiary للتعامل الذكي مع الفاتح والداكن تلقائياً -->
+<nav class="navbar navbar-expand-lg bg-body-tertiary shadow-sm py-2 sticky-top border-bottom">
+    <div class="container">
+        <!-- 1. اللوجو -->
+        <a class="navbar-brand d-flex align-items-center gap-2" href="/">
+            <img id="logoImage" src="{% static 'img/logo.png' %}" alt="شعار الجمعية" width="45" height="45" class="d-inline-block align-text-top">
+            <span class="fw-bold text-warning-emphasis d-none d-sm-inline">جمعية قيادة الذات</span>
+        </a>
+
+        <!-- زر الهامبرغر للموبايل -->
+        <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#mainNavbar" aria-controls="mainNavbar" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="mainNavbar">
+            <!-- 2. القائمة الرئيسية -->
+            <ul class="navbar-nav mx-auto mb-2 mb-lg-0 text-center fw-semibold">
+                <li class="nav-item">
+                    <a class="nav-link active text-warning-emphasis" href="/">الرئيسية</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-body-secondary" href="{% url 'category_list' %}">المحاور والمجالات</a>
+                </li>
+                <!-- <li class="nav-item">
+                    <a class="nav-link text-body-secondary" href="#">المجالات</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-body-secondary" href="#">المسارات</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-body-secondary" href="#">خطة الطالب</a>
+                </li> -->
+                <li class="nav-item">
+                    <a class="nav-link text-body-secondary" href="{% url 'about' %}">عن الجمعية</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-body-secondary" href="{% url 'contact' %}">تواصل معنا</a>
+                </li>
+            </ul>
+
+            <!-- 3. الأدوات والتفاعل -->
+            <div class="d-flex align-items-center justify-content-center gap-2 mt-3 mt-lg-0">
+                
+                <!-- زر التبديل بين Dark / Light Mode بأبسط كلاسات بوتستراب -->
+                <button class="btn btn-outline-warning border rounded-circle p-2 d-flex align-items-center justify-content-center shadow-sm" id="themeToggleBtn" type="button" style="width: 40px; height: 40px;" title="تغيير المظهر">
+                    <i class="bi bi-moon-stars-fill text-warning" id="themeIcon"></i>
+                </button>
+
+                <!-- زر حالة الدخول / ملف المستخدم -->
+                {% if user.is_authenticated %}
+                    <div class="dropdown">
+                        <button class="btn btn-warning rounded-pill px-3 fw-bold shadow-sm" type="button" id="userMenu" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="bi bi-person-circle me-1"></i> {{ user.first_name|default:user.username }}
+                        </button>
+                        <ul class="dropdown-menu dropdown-menu-end shadow border-0" aria-labelledby="userMenu">
+                            <li><a class="dropdown-item" href="{% url 'dashboard' %}">لوحة الإنجاز</a></li>
+                            <li><a class="dropdown-item" href="{% url 'profile' %}">الملف الشخصي</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item text-danger" href="{% url 'logout' %}">تسجيل الخروج</a></li>
+                        </ul>
+                    </div>
+                {% else %}
+                    <a href="{% url 'login' %}" class="btn btn-warning rounded-pill px-3 fw-bold shadow-sm">تسجيل الدخول</a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</nav>
