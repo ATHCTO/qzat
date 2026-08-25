@@ -20,7 +20,6 @@ def login_view(request):
 
         if user is not None:
             login(request, user)
-            messages.success(request, f'أهلاً بك مجدداً يا {user.first_name or user.username} 👋')
             
             # إعادة التوجيه للصفحة المطلوبة إن وجدت أو الصفحة الرئيسية
             next_url = request.GET.get('next')

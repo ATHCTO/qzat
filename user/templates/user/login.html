@@ -3,6 +3,7 @@
 {% block content %}
 <div class="container py-5">
     <div class="row justify-content-center my-5">
+        <!-- عرض رسائل الخطأ أو النجاح -->
         <div class="col-12 col-md-8 col-lg-5">
             
             <!-- كارت تسجيل الدخول -->
@@ -17,16 +18,6 @@
 
                 <div class="card-body p-4 p-md-5 bg-body-tertiary">
                     
-                    <!-- عرض رسائل الخطأ أو النجاح -->
-                    {% if messages %}
-                        {% for message in messages %}
-                            <div class="alert alert-{{ message.tags }} alert-dismissible fade show rounded-3 small mb-4" role="alert">
-                                {{ message }}
-                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                            </div>
-                        {% endfor %}
-                    {% endif %}
-
                     <form method="POST" action="{% url 'login' %}">
                         {% csrf_token %}
                         
@@ -65,4 +56,109 @@
         </div>
     </div>
 </div>
+<!-- حاوية التنبيهات -->
+<div class="custom-toast-container position-fixed top-0 start-50 translate-middle-x p-3 mt-5">
+    {% if messages %}
+        {% for message in messages %}
+            <div class="custom-toast {{ message.tags }} shadow-lg auto-toast" role="alert" data-bs-delay="5000">
+                <div class="toast-content d-flex align-items-center justify-content-between p-3">
+                    <div class="d-flex align-items-center gap-2">
+                        <span class="status-icon"></span>
+                        <span class="toast-message">{{ message }}</span>
+                    </div>
+                    <button type="button" class="btn-close-custom ms-3" onclick="this.closest('.custom-toast').remove()">✕</button>
+                </div>
+                <!-- شريط التقدم الزمني للاختفاء -->
+                <div class="progress-bar-timer"></div>
+            </div>
+        {% endfor %}
+    {% endif %}
+</div>
+
+<!-- تصميم CSS مخصص متناسق مع هوية الموقع -->
+<style>
+.custom-toast-container {
+    z-index: 9999;
+    min-width: 320px;
+    max-width: 90%;
+}
+
+.custom-toast {
+    background: #1e232a;
+    border: 1px solid rgba(212, 175, 55, 0.3);
+    border-radius: 12px;
+    color: #ffffff;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(8px);
+    animation: slideDown 0.4s ease-out forwards;
+}
+
+/* تخصيص الألوان حسب نوع الرسالة */
+.custom-toast.error, .custom-toast.danger {
+    border-right: 5px solid #ff4d4d;
+}
+.custom-toast.error .status-icon::before { content: "⚠️"; }
+
+.custom-toast.success {
+    border-right: 5px solid #28a745;
+}
+.custom-toast.success .status-icon::before { content: "✅"; }
+
+.custom-toast.info {
+    border-right: 5px solid #d4af37; /* لون ذهبي ينطبق مع الموقع */
+}
+.custom-toast.info .status-icon::before { content: "ℹ️"; }
+
+.toast-message {
+    font-size: 0.95rem;
+    font-weight: 500;
+}
+
+.btn-close-custom {
+    background: transparent;
+    border: none;
+    color: #a0a0a0;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: 0.2s;
+}
+.btn-close-custom:hover {
+    color: #ffffff;
+}
+
+/* شريط التوقيت متحرك أسفل الـ Pop-up */
+.progress-bar-timer {
+    height: 3px;
+    background: #d4af37; /* الشريط باللون الذهبي */
+    width: 100%;
+    animation: countdown 5s linear forwards;
+}
+
+@keyframes slideDown {
+    from { opacity: 0; transform: translateY(-20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes countdown {
+    from { width: 100%; }
+    to { width: 0%; }
+}
+</style>
+
+<!-- كود التشغيل والاختفاء التلقائي -->
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        var toasts = document.querySelectorAll('.auto-toast');
+        toasts.forEach(function (toast) {
+            setTimeout(function () {
+                toast.style.transition = "opacity 0.5s ease, transform 0.5s ease";
+                toast.style.opacity = "0";
+                toast.style.transform = "translateY(-10px)";
+                setTimeout(function() { toast.remove(); }, 500);
+            }, 5000);
+        });
+    });
+</script>
 {% endblock %}
