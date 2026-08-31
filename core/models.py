@@ -2,6 +2,7 @@ from django.db import models
 from django.utils import timezone
 from datetime import timedelta
 
+from user.models import CustomUser
 
 class Category(models.Model):
     name = models.CharField(max_length=150, unique=True, verbose_name='اسم المحور')
@@ -47,7 +48,7 @@ class Goal(models.Model):
         COMPLETED = 'COMPLETED', 'مكتمل'
         DELAYED = 'DELAYED', 'متأخر'
         EXTENDED = 'EXTENDED', 'ممدد'
-
+    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='goals', verbose_name='المستخدم')
     domain = models.ForeignKey(Domain, on_delete=models.CASCADE, related_name='goals', verbose_name='المجال')        
     track = models.ForeignKey(Track, on_delete=models.CASCADE, related_name='goals', verbose_name='المسار')
     title = models.CharField(max_length=150, verbose_name='عنوان الهدف')
@@ -65,7 +66,7 @@ class Goal(models.Model):
     class Meta:
         verbose_name = 'هدف'
         verbose_name_plural = 'الأهداف'
-        ordering = ['due_datetime']  # ترتيب الأهداف حسب الموعد الزمني للتنفيذ
+        ordering = ['due_datetime']
 
     def __str__(self):
         return f"{self.title} - {self.get_status_display()}"
@@ -100,7 +101,77 @@ class ContactMessage(models.Model):
     class Meta:
         verbose_name = "رسالة تواصل"
         verbose_name_plural = "رسائل التواصل"
-        ordering = ['-created_at']  # عرض الأحدث أولاً
+        ordering = ['-created_at']
 
     def __str__(self):
         return f"رسالة من {self.name} - {self.subject}"
+
+
+class Camp(models.Model):
+    title = models.CharField(
+        max_length=255, 
+        verbose_name='اسم المعسكر'
+    )
+    description = models.TextField(
+        blank=True, 
+        null=True, 
+        verbose_name='وصف المعسكر'
+    )
+    start_date = models.DateField(
+        verbose_name='تاريخ البداية'
+    )
+    end_date = models.DateField(
+        verbose_name='تاريخ النهاية'
+    )
+    is_active = models.BooleanField(
+        default=True, 
+        verbose_name='نشط'
+    )
+    
+    students = models.ManyToManyField(
+        CustomUser,
+        related_name='camps',
+        blank=True,
+        limit_choices_to={'role': CustomUser.Role.STUDENT},  # لضمان اختيار الطلاب فقط
+        verbose_name='الطلاب المشاركون'
+    )
+    
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name='تاريخ الإنشاء')
+
+    class Meta:
+        verbose_name = 'معسكر'
+        verbose_name_plural = 'المعسكرات'
+        ordering = ['-start_date']
+
+    def __str__(self):
+        return self.title
+
+    @property
+    def is_finished(self):
+        """خاصية لمعرفة هل انتهى وقت المعسكر أم لا"""
+        return timezone.now().date() > self.end_date
+    
+    
+class GoalComment(models.Model):
+    goal = models.ForeignKey(Goal, on_delete=models.CASCADE, related_name='comments', verbose_name='الهدف')
+    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='comments', verbose_name='المستخدم')
+    comment = models.TextField(verbose_name='التعليق')
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name='تاريخ الإنشاء')
+    updated_at = models.DateTimeField(auto_now=True, verbose_name='تاريخ التعديل')
+    
+    class Meta:
+        verbose_name = 'تعليق عن الهدف'
+        verbose_name_plural = 'تعليقات عن الأهداف'
+        ordering = ['created_at']
+
+    def __str__(self):
+        return f"تعليق بواسطة {self.user.username} - {self.goal.title}"
+
+    def is_editable(self):
+        """فحص هل مضى أقل من ساعة واحدة على كتابة التعليق"""
+        return timezone.now() <= self.created_at + timedelta(hours=1)
+
+    @property
+    def is_edited(self):
+        """تحديد هل تم تعديل التعليق (بفارق أكثر من ثانيتين عن الإنشاء للتغلب على الفروق الدقيقة)"""
+        return (self.updated_at - self.created_at).total_seconds() > 2

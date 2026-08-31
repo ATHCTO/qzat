@@ -19,6 +19,13 @@ GENERAL_URLS = [
     path('faq/', views.faq_view, name='faq'),
     path('privacy/', views.privacy_view, name='privacy'),
     path('support/', views.support_view, name='support'),
+    path('supervisor/students/', views.supervisor_students_list_view, name='supervisor_students_list'),
+    path('supervisor/students/<int:student_id>/', views.supervisor_student_detail_view, name='supervisor_student_detail'),
+    path('camps/', views.camp_list_view, name='camp_list'),
+    path('camp/<int:camp_id>/', views.camp_detail_view, name='camp_detail'),
+    path('goals/<int:goal_id>/', views.goal_detail_view, name='goal_detail'),
+    path('comments/<int:comment_id>/edit/', views.edit_comment_view, name='edit_comment'),
+    path('comments/<int:comment_id>/delete/', views.delete_comment_view, name='delete_comment'),
 ]
 
 APIS_URLS = []

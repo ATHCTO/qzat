@@ -1,0 +1,90 @@
+{% extends 'core/base.html' %}
+
+{% block title %}متابعة الطالب: {{ student.get_full_name }}{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+    <!-- كارت بيانات الطالب -->
+    <div class="card border-0 shadow-sm rounded-4 p-4 mb-4 bg-olive text-white">
+        <div class="d-flex align-items-center justify-content-between flex-wrap gap-3">
+            <div>
+                <span class="badge bg-gold text-dark fw-bold mb-2">ملف طالب</span>
+                <h3 class="fw-bold mb-1">{{ student.get_full_name|default:student.username }}</h3>
+                <p class="mb-0 text-white-50"><i class="fas fa-envelope me-1"></i> {{ student.email }} | <i class="fas fa-phone me-1"></i> {{ student.phone_number }}</p>
+            </div>
+            <a href="{% url 'supervisor_students_list' %}" class="btn btn-outline-light rounded-3">
+                <i class="fas fa-arrow-right me-1"></i> العودة للقائمة
+            </a>
+        </div>
+    </div>
+
+    <!-- جدول أهداف الطالب -->
+    <h4 class="fw-bold text-olive mb-3"><i class="fas fa-bullseye text-gold me-2"></i>الأهداف ومستوى الانجاز</h4>
+    
+    <div class="card border-0 shadow-sm rounded-4 overflow-hidden">
+        <div class="table-responsive">
+            <table class="table table-hover align-middle mb-0">
+<!-- رأس الجدول (تأكد من إضافة عمود الإجراءات في <thead>) -->
+<thead class="bg-light">
+    <tr>
+        <th>عنوان الهدف</th>
+        <th>المجال</th>
+        <th>تاريخ الانتهاء</th>
+        <th>حالة الوقت</th>
+        <th>حالة الإنجاز</th>
+        <th class="text-center">الإجراءات</th> <!-- ➕ عمود جديد -->
+    </tr>
+</thead>
+<tbody>
+    {% for goal in goals %}
+    <tr>
+        <!-- جعل عنوان الهدف رابطًا لسهولة الوصول -->
+        <td class="fw-bold">
+            <a href="{% url 'goal_detail' goal.id %}" class="text-decoration-none text-olive">
+                {{ goal.title }}
+            </a>
+        </td>
+        <td><span class="badge bg-light text-dark border">{{ goal.domain }}</span></td>
+        <td>{{ goal.due_datetime|date:"Y-m-d" }}</td>
+        
+        <!-- فحص هل انتهى وقت الهدف أم لا -->
+        <td>
+            {% if goal.due_datetime < now and goal.status != 'COMPLETED' %}
+                <span class="badge bg-danger">منتهي الوقت ولم يكتمل</span>
+            {% else %}
+                <span class="badge bg-info text-dark">متاح في الوقت</span>
+            {% endif %}
+        </td>
+
+        <!-- حالة الإنجاز -->
+        <td>
+            {% if goal.status == 'COMPLETED' %}
+                <span class="badge bg-success"><i class="fas fa-check me-1"></i>مكتمل</span>
+            {% elif goal.status == 'IN_PROGRESS' %}
+                <span class="badge bg-primary">قيد التنفيذ</span>
+            {% elif goal.status == 'EXTENDED' %}
+                <span class="badge bg-warning text-dark">تم التمديد</span>
+            {% else %}
+                <span class="badge bg-secondary">غير محدد</span>
+            {% endif %}
+        </td>
+
+        <!-- ➕ زر فتح صفحة التفاصيل والتعليقات -->
+        <td class="text-center">
+            <a href="{% url 'goal_detail' goal.id %}" class="btn btn-sm btn-gold text-white rounded-2 px-3">
+                <i class="fas fa-eye me-1"></i> التفاصيل والتعليقات
+            </a>
+        </td>
+    </tr>
+    {% empty %}
+    <tr>
+        <!-- تم تعديل عدد الأعمدة ليكون 6 لتفادي اختلال شكل الجدول -->
+        <td colspan="6" class="text-center py-4 text-muted">لم يقم الطالب بإضافة أهداف حتى الآن.</td>
+    </tr>
+    {% endfor %}
+</tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}

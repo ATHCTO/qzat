@@ -22,15 +22,14 @@
                 <li class="nav-item">
                     <a class="nav-link text-body-secondary" href="{% url 'category_list' %}">المحاور والمجالات</a>
                 </li>
-                <!-- <li class="nav-item">
-                    <a class="nav-link text-body-secondary" href="#">المجالات</a>
-                </li>
                 <li class="nav-item">
-                    <a class="nav-link text-body-secondary" href="#">المسارات</a>
+                    <a class="nav-link text-body-secondary" href="{% url 'camp_list' %}">المعسكرات</a>
                 </li>
+                {% if request.user.is_authenticated and request.user.role in "SYSTEM_ADMIN MANAGER SUPERVISOR" %}
                 <li class="nav-item">
-                    <a class="nav-link text-body-secondary" href="#">خطة الطالب</a>
-                </li> -->
+                    <a class="nav-link text-body-secondary" href="{% url 'supervisor_students_list' %}">طلابي</a>
+                </li>
+                {% endif %}
                 <li class="nav-item">
                     <a class="nav-link text-body-secondary" href="{% url 'about' %}">عن الجمعية</a>
                 </li>

@@ -20,10 +20,13 @@ class CustomUser(AbstractUser):
         regex=r'^(05|\+9665)[0-9]{8}$',
         message="رقم الجوال يجب أن يكون بصيغة صحيحة (مثال: 0591234567 أو +966591234567)."
     )
+    
     phone_number = models.CharField(
         validators=[phone_regex], 
         max_length=15, 
         unique=True, 
+        null=True,
+        blank=True,
         verbose_name='رقم الجوال', 
         error_messages={'unique': 'رقم الجوال مستخدم بالفعل.'}, 
         help_text='مثال: 0591234567 أو +966591234567'
@@ -46,21 +49,9 @@ class CustomUser(AbstractUser):
         verbose_name='المشرف المباشر'
     )
 
-    # حلف المجموعات والصلاحيات لتفادي التعارض مع Django Auth الافتراضي
-    groups = models.ManyToManyField(
-        'auth.Group',
-        related_name='custom_user_set',
-        blank=True,
-        verbose_name='المجموعات'
-    )
-    user_permissions = models.ManyToManyField(
-        'auth.Permission',
-        related_name='custom_user_set',
-        blank=True,
-        verbose_name='صلاحيات المستخدم'
-    )
-
-    REQUIRED_FIELDS = ['email', 'phone_number', 'first_name', 'last_name']
+    REQUIRED_FIELDS = ['email', 'first_name', 'last_name']
 
     def __str__(self):
-        return f"{self.get_full_name() or self.username} - ({self.get_role_display()})"
+        full_name = self.get_full_name().strip()
+        display_name = full_name if full_name else self.username
+        return f"{display_name} - ({self.get_role_display()})"

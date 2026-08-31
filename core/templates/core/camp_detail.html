@@ -1,0 +1,47 @@
+{% extends 'core/base.html' %}
+
+{% block title %}معسكر: {{ camp.title }} | جمعية قيادة الذات{% endblock title %}
+
+{% block content %}
+<div class="container py-4">
+    <div class="d-flex align-items-center justify-content-between mb-4">
+        <div>
+            <h3 class="fw-bold text-olive mb-1">
+                <i class="fas fa-users-class me-2"></i>معسكر: {{ camp.title }}
+            </h3>
+            <p class="text-muted mb-0">المعسكر المستعمل في الجمعية والتي يمكن الانضمام إليه الطلاب من خلال التسجيل باستخدام حساب تسجيل الدخول الخاص بك.</p>
+        </div>
+        <span class="badge bg-gold text-white px-3 py-2 rounded-pill">
+            عدد الطلاب: {{ students.count }}
+        </span>
+    </div>
+
+    <div class="row g-4">
+        <div class="col-md-6 col-lg-4">
+            <div class="card border-0 shadow-sm rounded-4 h-100 p-3">
+                <div class="card-body d-flex flex-column justify-content-between">
+                    <div>
+                        <div class="d-flex align-items-center mb-3">
+                            <div class="rounded-circle bg-olive text-gold p-3 me-3 ms-2 fs-4 fw-bold">
+                                {{ camp.start_date|date:"d" }}
+                            </div>
+                            <div>
+                                <h5 class="fw-bold mb-0 text-dark">{{ camp.title }}</h5>
+                                <small class="text-muted">{{ camp.description }}</small>
+                            </div>
+                        </div>
+                        
+                        {% if camp.is_active %}
+                            <a href="{% url 'camp_detail' camp.id %}" class="btn btn-outline-gold w-100 rounded-3">
+                                <i class="fas fa-eye me-1"></i> عرض المعسكر
+                            </a>
+                        {% else %}
+                            <span class="badge bg-warning text-dark">معسكر منتهي الوقت</span>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
