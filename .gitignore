@@ -1,16 +1,82 @@
-# Ignore Python cache files
-*.pyc
-*.pyo
+# ============================
+# Django & Python
+# ============================
+
+# Byte-compiled / optimized / DLL files
 __pycache__/
+*.py[cod]
+*$py.class
 
-# Ignore Django migration files
-migrations/
-**/migrations/**
+# Django migrations (keep only __init__.py)
+*/migrations/*
+!*/migrations/__init__.py
 
-# Ignore Media files
-media/
-*/media/
-
-# Ignore the SQLite database file
+# SQLite database
 db.sqlite3
-db.sqlite3-journal
+
+# Local settings
+local_settings.py
+
+# ============================
+# Environment & Secrets
+# ============================
+
+# Environment variables
+.env
+.env.*
+*.env
+
+# Secret keys / credentials
+secrets.json
+
+# ============================
+# Static & Media
+# ============================
+
+# Static files collected by collectstatic
+staticfiles/
+static/
+
+# User-uploaded media
+media/
+
+# ============================
+# Logs & Cache
+# ============================
+
+# Logs
+*.log
+logs/
+
+# Django cache
+cache/
+*.cache
+
+# ============================
+# Virtual Environment
+# ============================
+
+venv/
+env/
+ENV/
+.venv/
+
+# ============================
+# IDE / Editor
+# ============================
+
+# VSCode
+.vscode/
+
+# PyCharm
+.idea/
+
+# ============================
+# OS Generated
+# ============================
+
+# macOS
+.DS_Store
+
+# Windows
+Thumbs.db

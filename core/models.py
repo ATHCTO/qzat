@@ -132,7 +132,7 @@ class Camp(models.Model):
         CustomUser,
         related_name='camps',
         blank=True,
-        limit_choices_to={'role': CustomUser.Role.STUDENT},  # لضمان اختيار الطلاب فقط
+        limit_choices_to={'role': CustomUser.Role.STUDENT},
         verbose_name='الطلاب المشاركون'
     )
     

@@ -3,10 +3,7 @@
 {% block content %}
 <div class="container py-5">
     <div class="row justify-content-center my-5">
-        <!-- عرض رسائل الخطأ أو النجاح -->
         <div class="col-12 col-md-8 col-lg-5">
-            
-            <!-- كارت تسجيل الدخول -->
             <div class="card border-0 shadow-lg rounded-4 overflow-hidden">
                 <div class="card-header bg-primary text-white text-center py-4 border-0">
                     <div class="mb-2">
@@ -15,13 +12,9 @@
                     <h4 class="fw-bold mb-0">تسجيل الدخول</h4>
                     <p class="small mb-0 text-white-50 mt-1">أدخل بياناتك للمتابعة إلى حسابك</p>
                 </div>
-
                 <div class="card-body p-4 p-md-5 bg-body-tertiary">
-                    
                     <form method="POST" action="{% url 'login' %}">
                         {% csrf_token %}
-                        
-                        <!-- اسم المستخدم / البريد -->
                         <div class="mb-3">
                             <label class="form-label fw-semibold text-body">اسم المستخدم</label>
                             <div class="input-group">
@@ -31,8 +24,6 @@
                                 <input type="text" name="username" class="form-control bg-body border-start-0 rounded-end-3" placeholder="أدخل اسم المستخدم" required autofocus>
                             </div>
                         </div>
-
-                        <!-- كلمة المرور -->
                         <div class="mb-4">
                             <div class="d-flex justify-content-between align-items-center mb-1">
                                 <label class="form-label fw-semibold text-body mb-0">كلمة المرور</label>
@@ -44,8 +35,6 @@
                                 <input type="password" name="password" class="form-control bg-body border-start-0 rounded-end-3" placeholder="••••••••" required>
                             </div>
                         </div>
-
-                        <!-- زر تسجيل الدخول -->
                         <button type="submit" class="btn btn-primary w-100 rounded-pill py-2.5 fw-bold shadow-sm fs-6">
                             <i class="bi bi-box-arrow-in-right me-1"></i> دخول
                         </button>
@@ -56,7 +45,6 @@
         </div>
     </div>
 </div>
-<!-- حاوية التنبيهات -->
 <div class="custom-toast-container position-fixed top-0 start-50 translate-middle-x p-3 mt-5">
     {% if messages %}
         {% for message in messages %}
@@ -68,14 +56,11 @@
                     </div>
                     <button type="button" class="btn-close-custom ms-3" onclick="this.closest('.custom-toast').remove()">✕</button>
                 </div>
-                <!-- شريط التقدم الزمني للاختفاء -->
                 <div class="progress-bar-timer"></div>
             </div>
         {% endfor %}
     {% endif %}
 </div>
-
-<!-- تصميم CSS مخصص متناسق مع هوية الموقع -->
 <style>
 .custom-toast-container {
     z-index: 9999;
@@ -95,7 +80,6 @@
     animation: slideDown 0.4s ease-out forwards;
 }
 
-/* تخصيص الألوان حسب نوع الرسالة */
 .custom-toast.error, .custom-toast.danger {
     border-right: 5px solid #ff4d4d;
 }
@@ -107,7 +91,7 @@
 .custom-toast.success .status-icon::before { content: "✅"; }
 
 .custom-toast.info {
-    border-right: 5px solid #d4af37; /* لون ذهبي ينطبق مع الموقع */
+    border-right: 5px solid #d4af37;
 }
 .custom-toast.info .status-icon::before { content: "ℹ️"; }
 
@@ -128,10 +112,9 @@
     color: #ffffff;
 }
 
-/* شريط التوقيت متحرك أسفل الـ Pop-up */
 .progress-bar-timer {
     height: 3px;
-    background: #d4af37; /* الشريط باللون الذهبي */
+    background: #d4af37;
     width: 100%;
     animation: countdown 5s linear forwards;
 }
@@ -147,7 +130,6 @@
 }
 </style>
 
-<!-- كود التشغيل والاختفاء التلقائي -->
 <script>
     document.addEventListener('DOMContentLoaded', function () {
         var toasts = document.querySelectorAll('.auto-toast');
