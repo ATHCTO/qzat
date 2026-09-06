@@ -1,69 +1,55 @@
 {% load static %}
 <footer class="text-center text-lg-start bg-body-tertiary text-muted mt-auto pt-2 border-top">
-  <!-- 1. قسم التواصل الاجتماعي -->
-  <section class="d-flex justify-content-center justify-content-lg-between p-4 border-bottom container">
-    <div class="me-3 d-none d-lg-block fw-semibold">
-      <span>تواصل معنا عبر شبكات التواصل الاجتماعي:</span>
+    <section class="d-flex justify-content-center justify-content-lg-between p-4 border-bottom container">
+        <div class="me-3 d-none d-lg-block fw-semibold">
+            <span>تواصل معنا عبر شبكات التواصل الاجتماعي:</span>
+        </div>
+        <div class="d-flex gap-3 fs-5">
+            <a href="#!" class="text-reset text-decoration-none" title="X (Twitter)"><i class="fab fa-x-twitter"></i></a>
+            <a href="#!" class="text-reset text-decoration-none" title="Facebook"><i class="fab fa-facebook-f"></i></a>
+            <a href="#!" class="text-reset text-decoration-none" title="Instagram"><i class="fab fa-instagram"></i></a>
+            <a href="#!" class="text-reset text-decoration-none" title="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+            <a href="#!" class="text-reset text-decoration-none" title="YouTube"><i class="fab fa-youtube"></i></a>
+        </div>
+    </section>
+    <section class="py-4">
+        <div class="container text-center text-md-start mt-2">
+            <div class="row mt-3">
+                <div class="col-md-4 col-lg-4 col-xl-4 mx-auto mb-4 text-md-end">
+                    <h6 class="text-uppercase fw-bold mb-3 d-flex align-items-center justify-content-center justify-content-md-start gap-2">
+                        <img src="{% static 'img/logo.png' %}" alt="Logo" width="30" height="30">
+                        <span>جمعية قيادة الذات</span>
+                    </h6>
+                    <p class="lh-base text-secondary">
+                        منظومة رقمية متكاملة تهدف لرفع كفاءة المتابعة، ضبط المواعيد، وتعزيز التزام المتدربين بتحقيق أهدافهم الشاملة ضمن منهجية تربوية وتطويرية محكمة.
+                    </p>
+                </div>
+                <div class="col-md-2 col-lg-2 col-xl-2 mx-auto mb-4 text-md-end">
+                    <h6 class="text-uppercase fw-bold mb-3 text-primary">المنصة</h6>
+                    <p class="mb-2"><a href="#!" class="text-reset text-decoration-none">الأقسام الرئيسية</a></p>
+                    <p class="mb-2"><a href="#!" class="text-reset text-decoration-none">المجالات التطويرية</a></p>
+                    <p class="mb-2"><a href="#!" class="text-reset text-decoration-none">المسارات الإثرائية</a></p>
+                    <p class="mb-2"><a href="#!" class="text-reset text-decoration-none">خطط الطلاب</a></p>
+                </div>
+                <div class="col-md-2 col-lg-2 col-xl-2 mx-auto mb-4 text-md-end">
+                    <h6 class="text-uppercase fw-bold mb-3 text-primary">روابط تهمك</h6>
+                    <p class="mb-2"><a href="{% url 'about' %}" class="text-reset text-decoration-none">عن الجمعية</a></p>
+                    <p class="mb-2"><a href="{% url 'faq' %}" class="text-reset text-decoration-none">الأسئلة الشائعة</a></p>
+                    <p class="mb-2"><a href="{% url 'privacy' %}" class="text-reset text-decoration-none">سياسة الخصوصية</a></p>
+                    <p class="mb-2"><a href="{% url 'support' %}" class="text-reset text-decoration-none">الدعم الفني</a></p>
+                </div>
+                <div class="col-md-4 col-lg-3 col-xl-3 mx-auto mb-md-0 mb-4 text-md-end" dir="ltr">
+                    <h6 class="text-uppercase fw-bold mb-3 text-primary">التواصل المباشر</h6>
+                    <p class="mb-2"><i class="fas fa-home ms-1"></i> المملكة العربية السعودية</p>
+                    <p class="mb-2"><i class="fas fa-envelope ms-1"></i> admin@qiadtalthat.org.sa</p>
+                    <p class="mb-2"><i class="fas fa-phone ms-1"></i> +966 50 029 8388</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    <div class="text-center p-3 border-top" style="background-color: rgba(0, 0, 0, 0.03);">
+        © {% now "Y" %} جميع الحقوق محفوظة:
+        <a class="text-reset fw-bold text-decoration-none" href="/">جمعية قيادة الذات</a>
+        <!-- <p>تم التطوير بواسطة <a class="text-decoration-none" href="/">SmartSync</a></p> -->
     </div>
-    <div class="d-flex gap-3 fs-5">
-      <a href="#!" class="text-reset text-decoration-none" title="X (Twitter)"><i class="fab fa-x-twitter"></i></a>
-      <a href="#!" class="text-reset text-decoration-none" title="Facebook"><i class="fab fa-facebook-f"></i></a>
-      <a href="#!" class="text-reset text-decoration-none" title="Instagram"><i class="fab fa-instagram"></i></a>
-      <a href="#!" class="text-reset text-decoration-none" title="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
-      <a href="#!" class="text-reset text-decoration-none" title="YouTube"><i class="fab fa-youtube"></i></a>
-    </div>
-  </section>
-
-  <!-- 2. تفاصيل الفوتر والروابط -->
-  <section class="py-4">
-    <div class="container text-center text-md-start mt-2">
-      <div class="row mt-3">
-        
-        <!-- معلومات الجمعية -->
-        <div class="col-md-4 col-lg-4 col-xl-4 mx-auto mb-4 text-md-end">
-          <h6 class="text-uppercase fw-bold mb-3 d-flex align-items-center justify-content-center justify-content-md-start gap-2">
-            <img src="{% static 'img/logo.png' %}" alt="Logo" width="30" height="30">
-            <span>جمعية قيادة الذات</span>
-          </h6>
-          <p class="lh-base text-secondary">
-            منظومة رقمية متكاملة تهدف لرفع كفاءة المتابعة، ضبط المواعيد، وتعزيز التزام المتدربين بتحقيق أهدافهم الشاملة ضمن منهجية تربوية وتطويرية محكمة.
-          </p>
-        </div>
-
-        <!-- أركان المنصة -->
-        <div class="col-md-2 col-lg-2 col-xl-2 mx-auto mb-4 text-md-end">
-          <h6 class="text-uppercase fw-bold mb-3 text-primary">المنصة</h6>
-          <p class="mb-2"><a href="#!" class="text-reset text-decoration-none">الأقسام الرئيسية</a></p>
-          <p class="mb-2"><a href="#!" class="text-reset text-decoration-none">المجالات التطويرية</a></p>
-          <p class="mb-2"><a href="#!" class="text-reset text-decoration-none">المسارات الإثرائية</a></p>
-          <p class="mb-2"><a href="#!" class="text-reset text-decoration-none">خطط الطلاب</a></p>
-        </div>
-
-        <!-- روابط مهمة -->
-        <div class="col-md-2 col-lg-2 col-xl-2 mx-auto mb-4 text-md-end">
-          <h6 class="text-uppercase fw-bold mb-3 text-primary">روابط تهمك</h6>
-          <p class="mb-2"><a href="{% url 'about' %}" class="text-reset text-decoration-none">عن الجمعية</a></p>
-          <p class="mb-2"><a href="{% url 'faq' %}" class="text-reset text-decoration-none">الأسئلة الشائعة</a></p>
-          <p class="mb-2"><a href="{% url 'privacy' %}" class="text-reset text-decoration-none">سياسة الخصوصية</a></p>
-          <p class="mb-2"><a href="{% url 'support' %}" class="text-reset text-decoration-none">الدعم الفني</a></p>
-        </div>
-
-        <!-- بيانات التواصل -->
-        <div class="col-md-4 col-lg-3 col-xl-3 mx-auto mb-md-0 mb-4 text-md-end" dir="ltr">
-          <h6 class="text-uppercase fw-bold mb-3 text-primary">التواصل المباشر</h6>
-          <p class="mb-2"><i class="fas fa-home ms-1"></i> المملكة العربية السعودية</p>
-          <p class="mb-2"><i class="fas fa-envelope ms-1"></i> admin@qiadtalthat.org.sa</p>
-          <p class="mb-2"><i class="fas fa-phone ms-1"></i> +966 50 029 8388</p>
-        </div>
-
-      </div>
-    </div>
-  </section>
-
-  <!-- 3. حقوق النشر -->
-  <div class="text-center p-3 border-top" style="background-color: rgba(0, 0, 0, 0.03);">
-    © {% now "Y" %} جميع الحقوق محفوظة:
-    <a class="text-reset fw-bold text-decoration-none" href="/">جمعية قيادة الذات</a>
-    <!-- <p>تم التطوير بواسطة <a class="text-decoration-none" href="/">SmartSync</a></p> -->
-  </div>
 </footer>

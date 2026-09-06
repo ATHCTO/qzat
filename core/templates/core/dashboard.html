@@ -4,8 +4,6 @@
 
 {% block content %}
 <div class="container py-5">
-
-    <!-- العنوان والرأس -->
     <div class="d-flex justify-content-between align-items-center mb-4">
         <div>
             <h3 class="fw-bold text-body mb-1">
@@ -14,34 +12,25 @@
             <p class="text-body-secondary small mb-0">متابعة شاملة ونسب تقدم التنفيذ عبر جميع المجالات والمسارات</p>
         </div>
     </div>
-
-    <!-- 1. بطاقات الإحصائيات السريعة -->
     <div class="row g-3 mb-4">
-        <!-- نسبة الإنجاز الكلية -->
         <div class="col-6 col-md-3">
             <div class="card bg-warning-subtle border-warning-subtle shadow-sm rounded-4 p-3 text-center">
                 <div class="fs-2 fw-bold text-warning-emphasis mb-1">%{{ completion_rate }}</div>
                 <div class="text-body-secondary small fw-semibold">معدل الإنجاز العام</div>
             </div>
         </div>
-
-        <!-- الأهداف المكتملة -->
         <div class="col-6 col-md-3">
             <div class="card bg-success-subtle border-success-subtle shadow-sm rounded-4 p-3 text-center">
                 <div class="fs-2 fw-bold text-success mb-1">{{ completed_goals }}</div>
                 <div class="text-body-secondary small fw-semibold">أهداف مكتملة</div>
             </div>
         </div>
-
-        <!-- قيد التنفيذ -->
         <div class="col-6 col-md-3">
             <div class="card bg-info-subtle border-info-subtle shadow-sm rounded-4 p-3 text-center">
                 <div class="fs-2 fw-bold text-info mb-1">{{ in_progress_goals }}</div>
                 <div class="text-body-secondary small fw-semibold">قيد التنفيذ</div>
             </div>
         </div>
-
-        <!-- متأخرة أو قيد الانتظار -->
         <div class="col-6 col-md-3">
             <div class="card bg-danger-subtle border-danger-subtle shadow-sm rounded-4 p-3 text-center">
                 <div class="fs-2 fw-bold text-danger mb-1">{{ delayed_goals }}</div>
@@ -49,20 +38,16 @@
             </div>
         </div>
     </div>
-
-    <!-- 2. شريط التقدم العام -->
     <div class="card bg-body-tertiary border shadow-sm rounded-4 p-4 mb-4">
         <div class="d-flex justify-content-between align-items-center mb-2">
             <h6 class="fw-bold text-body mb-0">نسبة التقدم الكلي في الخطط</h6>
             <span class="fw-bold text-warning-emphasis">%{{ completion_rate }}</span>
         </div>
         <div class="progress rounded-pill" style="height: 12px;">
-            <div class="progress-bar bg-warning progress-bar-striped progress-bar-animated" role="progressbar" style="width: {{ completion_rate }}%;"></div>
+            <div class="progress-bar bg-warning progress-bar-striped progress-bar-animated" role="progressbar" style="width: '{{ completion_rate }}%';"></div>
         </div>
     </div>
-
     <div class="row g-4">
-        <!-- 3. نسبة الإنجاز حسب المجال -->
         <div class="col-12 col-lg-6">
             <div class="card bg-body-tertiary border shadow-sm rounded-4 p-4 h-100">
                 <h5 class="fw-bold text-body mb-3">
@@ -76,7 +61,7 @@
                                 <span class="text-body-secondary">{{ domain.completed }} من {{ domain.total }} هدف (%{{ domain.percentage }})</span>
                             </div>
                             <div class="progress rounded-pill" style="height: 8px;">
-                                <div class="progress-bar bg-success" role="progressbar" style="width: {{ domain.percentage }}%;"></div>
+                                <div class="progress-bar bg-success" role="progressbar" style="width: '{{ domain.percentage }}%';"></div>
                             </div>
                         </div>
                     {% empty %}
@@ -85,8 +70,6 @@
                 </div>
             </div>
         </div>
-
-        <!-- 4. أحدث الأهداف المضافة -->
         <div class="col-12 col-lg-6">
             <div class="card bg-body-tertiary border shadow-sm rounded-4 p-4 h-100">
                 <h5 class="fw-bold text-body mb-3">
@@ -118,6 +101,5 @@
             </div>
         </div>
     </div>
-
 </div>
 {% endblock %}

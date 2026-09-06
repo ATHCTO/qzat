@@ -1,27 +1,87 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
-
 from .models import CustomUser
+
 
 @admin.register(CustomUser)
 class CustomUserAdmin(UserAdmin):
-    # الحقول التي تظهر في جدول عرض المستخدمين
-    list_display = ('username', 'email', 'phone_number', 'role', 'supervisor', 'is_staff')
-    search_fields = ('username', 'email', 'phone_number', 'first_name', 'last_name')
-    list_filter = ('role', 'is_staff', 'is_superuser', 'is_active')
+    list_display = (
+        'username', 
+        'get_full_name', 
+        'email', 
+        'identity_type', 
+        'identity_number', 
+        'phone_number', 
+        'role', 
+        'supervisor', 
+        'display_age'
+    )
     
-    # حقول صفحة التعديل (Edit User)
+    search_fields = (
+        'username', 
+        'email', 
+        'phone_number', 
+        'identity_number', 
+        'first_name', 
+        'last_name'
+    )
+    
+    list_filter = (
+        'role', 
+        'identity_type', 
+        'region', 
+        'nationality', 
+        'is_staff', 
+        'is_active'
+    )
+    
+    readonly_fields = ('display_age', 'last_login', 'date_joined')
+
     fieldsets = (
         (None, {'fields': ('username', 'password')}),
-        ('المعلومات الشخصية', {'fields': ('first_name', 'last_name', 'email', 'phone_number')}),
+        ('المعلومات الشخصية', {
+            'fields': (
+                ('first_name', 'last_name'),
+                'email', 
+                'phone_number',
+                'birth_date',
+                'display_age'
+            )
+        }),
+        ('بيانات الهوية والإقامة', {
+            'fields': (
+                'identity_type', 
+                'identity_number', 
+                'nationality', 
+                'region'
+            )
+        }),
         ('الدور والإشراف', {'fields': ('role', 'supervisor')}),
-        ('الصلاحيات', {'fields': ('is_active', 'is_staff', 'is_superuser', 'groups', 'user_permissions')}),
+        ('الصلاحيات', {
+            'fields': ('is_active', 'is_staff', 'is_superuser', 'groups', 'user_permissions'),
+            'classes': ('collapse',)
+        }),
         ('تواريخ هامة', {'fields': ('last_login', 'date_joined')}),
     )
 
-    # حقول صفحة إنشاء مستخدم جديد (Add User) - تضمن تشفير كلمة المرور تلقائياً
     add_fieldsets = UserAdmin.add_fieldsets + (
-        ('معلومات إضافية', {
-            'fields': ('first_name', 'last_name', 'email', 'phone_number', 'role', 'supervisor'),
+        ('المعلومات الشخصية والإضافية', {
+            'fields': (
+                'first_name', 
+                'last_name', 
+                'email', 
+                'phone_number', 
+                'identity_type', 
+                'identity_number', 
+                'nationality', 
+                'region', 
+                'birth_date', 
+                'role', 
+                'supervisor'
+            ),
         }),
     )
+
+    @admin.display(description='العمر (سنة)')
+    def display_age(self, obj):
+        return obj.age if obj.age is not None else "-"
