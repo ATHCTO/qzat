@@ -56,7 +56,6 @@ def profile_view(request, user_id=None):
         identity_type = request.POST.get('identity_type')
         identity_number = request.POST.get('identity_number', '').strip() or None
         nationality = request.POST.get('nationality', '').strip() or None
-        region = request.POST.get('region', '').strip() or None
         birth_date = request.POST.get('birth_date') or None
 
         # التحقق من عدم تكرار البريد ورقم الهوية
@@ -78,7 +77,6 @@ def profile_view(request, user_id=None):
         profile_user.identity_type = identity_type
         profile_user.identity_number = identity_number
         profile_user.nationality = nationality
-        profile_user.region = region
         profile_user.birth_date = birth_date
         profile_user.save()
 
