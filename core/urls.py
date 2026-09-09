@@ -2,6 +2,7 @@ from django.urls import path
 
 from core.views import index_view, category_view, domain_view, goal_view, comment_view, supervisor_view, contact_view, camp_view
 
+
 urlpatterns = []
 
 GENERAL_URLS = [

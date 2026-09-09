@@ -4,6 +4,7 @@ from datetime import timedelta
 
 from user.models import CustomUser
 
+
 class Category(models.Model):
     name = models.CharField(max_length=150, unique=True, verbose_name='اسم المحور')
     description = models.TextField(blank=True, verbose_name='الوصف')
@@ -54,7 +55,8 @@ class Goal(models.Model):
     title = models.CharField(max_length=150, verbose_name='عنوان الهدف')
     description = models.TextField(blank=True, verbose_name='الوصف')
 
-    due_datetime = models.DateTimeField(verbose_name="الموعد الزمني للتنفيذ")
+    start_datetime = models.DateTimeField(verbose_name="تاريخ ووقت البدء")
+    due_datetime = models.DateTimeField(verbose_name="تاريخ ووقت الاستحقاق")
     completed_at = models.DateTimeField(null=True, blank=True, verbose_name="تاريخ ووقت الإنجاز الفعلي")
     
     status = models.CharField(max_length=20, choices=Status.choices, default=Status.IN_PROGRESS, verbose_name='حالة التنفيذ')
