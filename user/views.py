@@ -7,7 +7,7 @@ from django.db.models import Count, Q
 from .forms import AdminUserCreationForm
 
 from core.models import Goal
-from .models import CustomUser
+from .models.custom_user import CustomUser
 
 
 def login_view(request):

@@ -3,6 +3,8 @@ from django.contrib.auth.models import AbstractUser
 from django.core.validators import RegexValidator
 from django.utils import timezone
 
+from .address import Address
+
 
 class CustomUser(AbstractUser):
     class Role(models.TextChoices):
@@ -77,13 +79,6 @@ class CustomUser(AbstractUser):
         error_messages={'unique': 'رقم الهوية مستخدم بالفعل.'}
     )
 
-    region = models.CharField(
-        max_length=100,
-        null=True,
-        blank=True,
-        verbose_name='المنطقة'
-    )
-
     nationality = models.CharField(
         max_length=100,
         null=True,
@@ -91,6 +86,13 @@ class CustomUser(AbstractUser):
         verbose_name='الجنسية'
     )
 
+    address = models.ForeignKey(
+        Address, 
+        on_delete=models.CASCADE, 
+        related_name='users', 
+        verbose_name='العنوان'
+    )
+    
     birth_date = models.DateField(
         null=True,
         blank=True,

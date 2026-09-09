@@ -3,7 +3,7 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 
 from core.models import Camp
-from user.models import CustomUser
+from user.models.custom_user import CustomUser
 
 
 @login_required(login_url='login')

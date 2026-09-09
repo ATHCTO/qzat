@@ -3,7 +3,7 @@ from django.db.models import Q, Count
 from django.contrib.auth.decorators import login_required
 
 from core.models import Goal, Domain
-from user.models import CustomUser
+from user.models.custom_user import CustomUser
 
 
 def index_view(request):

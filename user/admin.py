@@ -1,7 +1,8 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 
-from .models import CustomUser
+from .models.address import Address
+from .models.custom_user import CustomUser
 
 
 @admin.register(CustomUser)
@@ -30,7 +31,6 @@ class CustomUserAdmin(UserAdmin):
     list_filter = (
         'role', 
         'identity_type', 
-        'region', 
         'nationality', 
         'is_staff', 
         'is_active'
@@ -54,7 +54,6 @@ class CustomUserAdmin(UserAdmin):
                 'identity_type', 
                 'identity_number', 
                 'nationality', 
-                'region'
             )
         }),
         ('الدور والإشراف', {'fields': ('role', 'supervisor')}),
@@ -75,7 +74,6 @@ class CustomUserAdmin(UserAdmin):
                 'identity_type', 
                 'identity_number', 
                 'nationality', 
-                'region', 
                 'birth_date', 
                 'role', 
                 'supervisor'
@@ -86,3 +84,41 @@ class CustomUserAdmin(UserAdmin):
     @admin.display(description='العمر (سنة)')
     def display_age(self, obj):
         return obj.age if obj.age is not None else "-"
+    
+
+@admin.register(Address)
+class AddressAdmin(admin.ModelAdmin):
+    list_display = (
+        'region', 
+        'city', 
+        'street', 
+        'building_number', 
+        'additional_number', 
+        'postal_code', 
+        'national_address_code', 
+        'geo_coordinates'
+    )
+    
+    search_fields = (
+        'region__name', 
+        'city__name', 
+        'street', 
+        'building_number', 
+        'additional_number', 
+        'postal_code', 
+        'national_address_code', 
+        'geo_coordinates'
+    )
+    
+    list_filter = (
+        'region', 
+        'city', 
+        'street', 
+        'building_number', 
+        'additional_number', 
+        'postal_code', 
+        'national_address_code', 
+        'geo_coordinates'
+    )
+    
+    readonly_fields = ('geo_coordinates',)

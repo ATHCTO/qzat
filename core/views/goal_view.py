@@ -7,7 +7,7 @@ from django.core.exceptions import PermissionDenied
 from django.utils import timezone
 
 from core.models import Goal, Domain, Track, GoalComment
-from user.models import CustomUser
+from user.models.custom_user import CustomUser
 
 
 @login_required(login_url='login')

@@ -1,6 +1,7 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
-from .models import CustomUser
+
+from .models.custom_user import CustomUser
 
 
 class AdminUserCreationForm(UserCreationForm):
@@ -15,7 +16,6 @@ class AdminUserCreationForm(UserCreationForm):
             'identity_type',
             'identity_number',
             'nationality',
-            'region',
             'birth_date',
             'role', 
             'supervisor'
@@ -29,7 +29,6 @@ class AdminUserCreationForm(UserCreationForm):
             'identity_type': forms.Select(attrs={'class': 'form-select'}),
             'identity_number': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'رقم الهوية (10 أرقام)'}),
             'nationality': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'الجنسية (مثال: سعودي)'}),
-            'region': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'المنطقة (مثال: الرياض)'}),
             'birth_date': forms.DateInput(attrs={
                 'class': 'form-control', 
                 'type': 'date'

@@ -2,7 +2,7 @@ from django.db import models
 from django.utils import timezone
 from datetime import timedelta
 
-from user.models import CustomUser
+from user.models.custom_user import CustomUser
 
 
 class Category(models.Model):
@@ -55,7 +55,7 @@ class Goal(models.Model):
     title = models.CharField(max_length=150, verbose_name='عنوان الهدف')
     description = models.TextField(blank=True, verbose_name='الوصف')
 
-    start_datetime = models.DateTimeField(verbose_name="تاريخ ووقت البدء")
+    start_datetime = models.DateTimeField(null=True, blank=True, verbose_name="تاريخ ووقت البدء")
     due_datetime = models.DateTimeField(verbose_name="تاريخ ووقت الاستحقاق")
     completed_at = models.DateTimeField(null=True, blank=True, verbose_name="تاريخ ووقت الإنجاز الفعلي")
     
