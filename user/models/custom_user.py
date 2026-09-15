@@ -89,6 +89,8 @@ class CustomUser(AbstractUser):
     address = models.ForeignKey(
         Address, 
         on_delete=models.CASCADE, 
+        null=True, 
+        blank=True, 
         related_name='users', 
         verbose_name='العنوان'
     )

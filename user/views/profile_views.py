@@ -1,39 +1,10 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from django.contrib.auth import authenticate, login, logout
-from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.db.models import Count, Q
-
-from .forms import AdminUserCreationForm
+from django.contrib import messages
 
 from core.models import Goal
-from .models.custom_user import CustomUser
-
-
-def login_view(request):
-    if request.user.is_authenticated:
-        return redirect('index')
-
-    if request.method == 'POST':
-        username_input = request.POST.get('username')
-        password_input = request.POST.get('password')
-        user = authenticate(request, username=username_input, password=password_input)
-
-        if user is not None:
-            login(request, user)
-            next_url = request.GET.get('next')
-            if next_url:
-                return redirect(next_url)
-            return redirect('index')
-        else:
-            messages.error(request, 'اسم المستخدم أو كلمة المرور غير صحيحة. حاول مرة أخرى.')
-    return render(request, 'user/login.html')
-
-
-def logout_view(request):
-    logout(request)
-    messages.info(request, 'تم تسجيل الخروج بنجاح. ننتظر عودتك قريبًا!')
-    return redirect('login')
+from user.models.custom_user import CustomUser
 
 
 @login_required(login_url='login')
@@ -95,23 +66,3 @@ def profile_view(request, user_id=None):
         'completed_goals': goal_stats['completed'] or 0,
     }
     return render(request, 'user/profile.html', context)
-
-@login_required
-def create_user_by_admin(request):
-    allowed_roles = [CustomUser.Role.SYSTEM_ADMIN, CustomUser.Role.MANAGER]
-    
-    if request.user.role not in allowed_roles and not request.user.is_superuser:
-        messages.error(request, "عذراً، لا تملك الصلاحيات الكافية للوصول إلى هذه الصفحة.")
-        return redirect('index')
-    if request.method == 'POST':
-        form = AdminUserCreationForm(request.POST)
-        if form.is_valid():
-            user = form.save()
-            messages.success(request, f"تم إنشاء حساب ({user.username}) بنجاح!")
-            return redirect('create_user')
-        else:
-            messages.error(request, "يرجى تصحيح الأخطاء أدناه.")
-    else:
-        form = AdminUserCreationForm()
-
-    return render(request, 'user/admin_panel/create_user.html', {'form': form})
