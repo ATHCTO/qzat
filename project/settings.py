@@ -29,6 +29,9 @@ ALLOWED_HOSTS = []
 
 AUTH_USER_MODEL = 'user.CustomUser'
 
+LOGIN_URL = '/login/'
+LOGIN_REDIRECT_URL = '/'
+
 # Application definition
 
 INSTALLED_APPS = [
@@ -38,6 +41,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django_apscheduler',
     
     'core',
     'user',
@@ -51,6 +55,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'core.utils.middleware.LoginRequiredMiddleware',
 ]
 
 ROOT_URLCONF = 'project.urls'

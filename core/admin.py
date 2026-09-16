@@ -1,11 +1,12 @@
 from django.contrib import admin
 
-from .models import Category, Domain, Track, Camp
+from .models import Category, Domain, Track, Camp, Notification
 
 
 admin.site.register(Category)
 admin.site.register(Track)
 admin.site.register(Domain)
+admin.site.register(Notification)
 
 @admin.register(Camp)
 class CampAdmin(admin.ModelAdmin):

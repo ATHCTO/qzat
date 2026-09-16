@@ -1,6 +1,7 @@
 from django.db import models
 from django.utils import timezone
 from datetime import timedelta
+from django.urls import reverse
 
 from user.models.custom_user import CustomUser
 
@@ -35,6 +36,8 @@ class Domain(models.Model):
     description = models.TextField(blank=True, verbose_name='الوصف')
     
     tracks = models.ManyToManyField(Track, related_name='domains', verbose_name='المسارات')
+    icon = models.CharField(max_length=100, blank=True, default='bi bi-layers', verbose_name='الرمز التعريفي للمجال')
+
     class Meta:
         verbose_name = 'مجال'
         verbose_name_plural = 'المجالات'
@@ -62,6 +65,9 @@ class Goal(models.Model):
     status = models.CharField(max_length=20, choices=Status.choices, default=Status.IN_PROGRESS, verbose_name='حالة التنفيذ')
     notes = models.TextField(blank=True, verbose_name='ملاحظات المشرف/الطالب')
 
+    notified_24h = models.BooleanField(default=False)
+    notified_2h = models.BooleanField(default=False)
+    
     created_at = models.DateTimeField(auto_now_add=True, verbose_name='تاريخ الإنشاء')
     updated_at = models.DateTimeField(auto_now=True, verbose_name='تاريخ التحديث')
 
@@ -177,3 +183,20 @@ class GoalComment(models.Model):
     def is_edited(self):
         """تحديد هل تم تعديل التعليق (بفارق أكثر من ثانيتين عن الإنشاء للتغلب على الفروق الدقيقة)"""
         return (self.updated_at - self.created_at).total_seconds() > 2
+    
+    
+# core/models.py
+class Notification(models.Model):
+    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='notifications')
+    goal = models.ForeignKey(Goal, on_delete=models.CASCADE, null=True, blank=True)
+    message = models.TextField()
+    is_read = models.BooleanField(default=False)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ['-created_at']
+
+    def get_absolute_url(self):
+        if self.goal:
+            return reverse('goal_detail', kwargs={'goal_id': self.goal.id})
+        return '#'
