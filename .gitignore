@@ -38,6 +38,10 @@ secrets.json
 # Static & Media
 # ============================
 
+# Static files collected by collectstatic
+staticfiles/
+static/
+
 # User-uploaded media
 media/
 
