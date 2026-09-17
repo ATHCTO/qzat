@@ -7,8 +7,6 @@
     <div class="row justify-content-center">
         <div class="col-lg-10">
             <div class="card border-0 shadow-sm rounded-4 p-4 p-md-5">
-                
-                <!-- هيدر الصفحة -->
                 <div class="d-flex align-items-center justify-content-between mb-4">
                     <div>
                         <h3 class="fw-bold text-olive mb-1">
@@ -18,8 +16,6 @@
                     </div>
                     <span class="badge bg-gold text-white px-3 py-2 rounded-pill">مدير النظام</span>
                 </div>
-
-                <!-- التنبيهات والرسائل -->
                 {% if messages %}
                     {% for message in messages %}
                         <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
@@ -28,125 +24,99 @@
                         </div>
                     {% endfor %}
                 {% endif %}
-
                 <form method="post" novalidate>
                     {% csrf_token %}
-                    
                     <div class="row g-3">
-                        
-                        <!-- 1️⃣ قسم البيانات الأساسية للحساب -->
                         <div class="col-12">
                             <h6 class="fw-bold text-primary border-bottom pb-2">
                                 <i class="fas fa-id-card me-1"></i> البيانات الأساسية للحساب
                             </h6>
                         </div>
-
                         <div class="col-md-6">
                             <label class="form-label fw-bold small">اسم المستخدم *</label>
                             {{ form.username }}
                             <div class="text-danger small">{{ form.username.errors }}</div>
                         </div>
-
                         <div class="col-md-6">
                             <label class="form-label fw-bold small">البريد الإلكتروني *</label>
                             {{ form.email }}
                             <div class="text-danger small">{{ form.email.errors }}</div>
                         </div>
-
                         <div class="col-md-6">
                             <label class="form-label fw-bold small">الاسم الأول *</label>
                             {{ form.first_name }}
                             <div class="text-danger small">{{ form.first_name.errors }}</div>
                         </div>
-
                         <div class="col-md-6">
                             <label class="form-label fw-bold small">اسم العائلة *</label>
                             {{ form.last_name }}
                             <div class="text-danger small">{{ form.last_name.errors }}</div>
                         </div>
-
                         <div class="col-md-6">
                             <label class="form-label fw-bold small">رقم الجوال</label>
                             {{ form.phone_number }}
                             <div class="text-danger small">{{ form.phone_number.errors }}</div>
                         </div>
-
                         <div class="col-md-6">
                             <label class="form-label fw-bold small">تاريخ الميلاد</label>
                             {{ form.birth_date }}
                             <div class="text-danger small">{{ form.birth_date.errors }}</div>
                         </div>
-
-                        <!-- 2️⃣ قسم بيانات الهوية والإقامة -->
                         <div class="col-12 mt-4">
                             <h6 class="fw-bold text-primary border-bottom pb-2">
                                 <i class="fas fa-address-card me-1"></i> بيانات الهوية والعنوان
                             </h6>
                         </div>
-
                         <div class="col-md-6">
                             <label class="form-label fw-bold small">نوع الهوية</label>
                             {{ form.identity_type }}
                             <div class="text-danger small">{{ form.identity_type.errors }}</div>
                         </div>
-
                         <div class="col-md-6">
                             <label class="form-label fw-bold small">رقم الهوية (10 أرقام)</label>
                             {{ form.identity_number }}
                             <div class="text-danger small">{{ form.identity_number.errors }}</div>
                         </div>
-
                         <div class="col-md-6">
                             <label class="form-label fw-bold small">الجنسية</label>
                             {{ form.nationality }}
                             <div class="text-danger small">{{ form.nationality.errors }}</div>
                         </div>
-
-                        <!-- 3️⃣ قسم الدور والإشراف -->
                         <div class="col-12 mt-4">
                             <h6 class="fw-bold text-primary border-bottom pb-2">
                                 <i class="fas fa-user-shield me-1"></i> الدور والصلاحيات
                             </h6>
                         </div>
-
                         <div class="col-md-6">
                             <label class="form-label fw-bold small">نوع المستخدم (الرول) *</label>
                             {{ form.role }}
                             <div class="text-danger small">{{ form.role.errors }}</div>
                         </div>
-
                         <div class="col-md-6">
                             <label class="form-label fw-bold small">المشرف المباشر (في حال كان طالب)</label>
                             {{ form.supervisor }}
                             <div class="text-danger small">{{ form.supervisor.errors }}</div>
                         </div>
-
-                        <!-- 4️⃣ قسم كلمة المرور -->
                         <div class="col-12 mt-4">
                             <h6 class="fw-bold text-primary border-bottom pb-2">
                                 <i class="fas fa-lock me-1"></i> كلمة المرور
                             </h6>
                         </div>
-
                         <div class="col-md-6">
                             <label class="form-label fw-bold small">كلمة المرور *</label>
                             {{ form.password1 }}
                             <div class="text-danger small">{{ form.password1.errors }}</div>
                         </div>
-
                         <div class="col-md-6">
                             <label class="form-label fw-bold small">تأكيد كلمة المرور *</label>
                             {{ form.password2 }}
                             <div class="text-danger small">{{ form.password2.errors }}</div>
                         </div>
-
-                        <!-- زر الإرسال -->
                         <div class="col-12 mt-4">
                             <button type="submit" class="btn btn-gold text-white fw-bold w-100 py-2 rounded-3 shadow-sm">
                                 <i class="fas fa-save me-1"></i> إنشاء الحساب
                             </button>
                         </div>
-
                     </div>
                 </form>
             </div>
