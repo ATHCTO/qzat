@@ -16,7 +16,7 @@
             <!-- 2. القائمة الرئيسية -->
             <ul class="navbar-nav mx-auto mb-2 mb-lg-0 text-center fw-semibold">
                 <li class="nav-item">
-                    <a class="nav-link active text-warning-emphasis" href="/">الرئيسية</a>
+                    <a class="nav-link" href="/">الرئيسية</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link text-body-secondary" href="{% url 'category_list' %}">المحاور والمجالات</a>
@@ -41,14 +41,14 @@
             <div class="d-flex align-items-center justify-content-center gap-2 mt-3 mt-lg-0">
                 
                 <!-- زر التبديل بين Dark / Light Mode بأبسط كلاسات بوتستراب -->
-                <button class="btn btn-outline-warning border rounded-circle p-2 d-flex align-items-center justify-content-center shadow-sm" id="themeToggleBtn" type="button" style="width: 40px; height: 40px;" title="تغيير المظهر">
+                <button class="btn btn-outline-gold border rounded-circle p-2 d-flex align-items-center justify-content-center shadow-sm" id="themeToggleBtn" type="button" style="width: 40px; height: 40px;" title="تغيير المظهر">
                     <i class="bi bi-moon-stars-fill text-warning" id="themeIcon"></i>
                 </button>
 
                 {% if user.is_authenticated %}
                     <!-- قائمة الإشعارات -->
                     <div class="dropdown">
-                        <button class="btn btn-outline-secondary border rounded-circle p-2 d-flex align-items-center justify-content-center shadow-sm position-relative" type="button" id="notificationsMenu" data-bs-toggle="dropdown" aria-expanded="false" style="width: 40px; height: 40px;" title="الإشعارات">
+                        <button class="btn btn-outline-gold border rounded-circle p-2 d-flex align-items-center justify-content-center shadow-sm position-relative" type="button" id="notificationsMenu" data-bs-toggle="dropdown" aria-expanded="false" style="width: 40px; height: 40px;" title="الإشعارات">
                             <i class="bi bi-bell-fill fs-6"></i>
                             
                             <!-- شارة عدد الإشعارات غير المقروءة (تظهر فقط عند وجود إشعارات) -->
@@ -98,7 +98,7 @@
 
                     <!-- زر حالة الدخول / ملف المستخدم -->
                     <div class="dropdown">
-                        <button class="btn btn-warning rounded-pill px-3 fw-bold shadow-sm" type="button" id="userMenu" data-bs-toggle="dropdown" aria-expanded="false">
+                        <button class="btn btn-gold rounded-pill px-3 fw-bold shadow-sm" type="button" id="userMenu" data-bs-toggle="dropdown" aria-expanded="false">
                             <i class="bi bi-person-circle me-1"></i> {{ user.first_name|default:user.username }}
                         </button>
                         <ul class="dropdown-menu dropdown-menu-end shadow border-0" aria-labelledby="userMenu">

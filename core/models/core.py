@@ -1,7 +1,6 @@
 from django.db import models
 from django.utils import timezone
 from datetime import timedelta
-from django.urls import reverse
 
 from user.models.custom_user import CustomUser
 
@@ -52,6 +51,7 @@ class Goal(models.Model):
         COMPLETED = 'COMPLETED', 'مكتمل'
         DELAYED = 'DELAYED', 'متأخر'
         EXTENDED = 'EXTENDED', 'ممدد'
+
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='goals', verbose_name='المستخدم')
     domain = models.ForeignKey(Domain, on_delete=models.CASCADE, related_name='goals', verbose_name='المجال')        
     track = models.ForeignKey(Track, on_delete=models.CASCADE, related_name='goals', verbose_name='المسار')
@@ -91,59 +91,16 @@ class Goal(models.Model):
         return 0
     
     
-class ContactMessage(models.Model):
-    STATUS_CHOICES = (
-        ('new', 'جديدة'),
-        ('read', 'تمت قراءتها'),
-        ('replied', 'تم الرد'),
-    )
-
-    name = models.CharField(max_length=150, verbose_name="اسم المرسل")
-    email = models.EmailField(verbose_name="البريد الإلكتروني")
-    subject = models.CharField(max_length=255, verbose_name="عنوان الموضوع")
-    message = models.TextField(verbose_name="نص الرسالة")
-    
-    created_at = models.DateTimeField(auto_now_add=True, verbose_name="تاريخ الإرسال")
-    status = models.CharField(max_length=10, choices=STATUS_CHOICES, default='new', verbose_name="حالة الرسالة")
-
-    class Meta:
-        verbose_name = "رسالة تواصل"
-        verbose_name_plural = "رسائل التواصل"
-        ordering = ['-created_at']
-
-    def __str__(self):
-        return f"رسالة من {self.name} - {self.subject}"
-
-
 class Camp(models.Model):
-    title = models.CharField(
-        max_length=255, 
-        verbose_name='اسم المعسكر'
-    )
-    description = models.TextField(
-        blank=True, 
-        null=True, 
-        verbose_name='وصف المعسكر'
-    )
-    start_date = models.DateField(
-        verbose_name='تاريخ البداية'
-    )
-    end_date = models.DateField(
-        verbose_name='تاريخ النهاية'
-    )
-    is_active = models.BooleanField(
-        default=True, 
-        verbose_name='نشط'
-    )
+    title = models.CharField(max_length=255, verbose_name='اسم المعسكر')
+    description = models.TextField(blank=True, null=True, verbose_name='وصف المعسكر')
+    start_date = models.DateField(verbose_name='تاريخ البداية')
+    end_date = models.DateField(verbose_name='تاريخ النهاية')
+    is_active = models.BooleanField(default=True, verbose_name='نشط')
     
-    students = models.ManyToManyField(
-        CustomUser,
-        related_name='camps',
-        blank=True,
-        limit_choices_to={'role': CustomUser.Role.STUDENT},
-        verbose_name='الطلاب المشاركون'
-    )
-    
+    students = models.ManyToManyField(CustomUser, related_name='students_camps', blank=True, limit_choices_to={'role': CustomUser.Role.STUDENT}, verbose_name='الطلاب المشاركون')
+    supervisors = models.ManyToManyField(CustomUser, related_name='supervisors_camps', blank=True, limit_choices_to={'role': CustomUser.Role.SUPERVISOR}, verbose_name='المشرفون')
+
     created_at = models.DateTimeField(auto_now_add=True, verbose_name='تاريخ الإنشاء')
 
     class Meta:
@@ -183,20 +140,3 @@ class GoalComment(models.Model):
     def is_edited(self):
         """تحديد هل تم تعديل التعليق (بفارق أكثر من ثانيتين عن الإنشاء للتغلب على الفروق الدقيقة)"""
         return (self.updated_at - self.created_at).total_seconds() > 2
-    
-    
-# core/models.py
-class Notification(models.Model):
-    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='notifications')
-    goal = models.ForeignKey(Goal, on_delete=models.CASCADE, null=True, blank=True)
-    message = models.TextField()
-    is_read = models.BooleanField(default=False)
-    created_at = models.DateTimeField(auto_now_add=True)
-
-    class Meta:
-        ordering = ['-created_at']
-
-    def get_absolute_url(self):
-        if self.goal:
-            return reverse('goal_detail', kwargs={'goal_id': self.goal.id})
-        return '#'

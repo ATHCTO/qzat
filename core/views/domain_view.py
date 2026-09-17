@@ -1,6 +1,6 @@
 from django.shortcuts import render, get_object_or_404
 
-from core.models import Domain
+from core.models.core import Domain
 
 
 def domain_tracks_view(request, domain_id):

@@ -1,5 +1,7 @@
 from django import forms
-from .models import Goal
+
+from core.models.core import Goal
+
 
 class GoalForm(forms.ModelForm):
     class Meta:

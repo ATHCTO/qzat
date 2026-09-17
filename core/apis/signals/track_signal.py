@@ -1,7 +1,7 @@
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 
-from core.models import Domain, Track
+from core.models.core import Domain, Track
 
 @receiver(post_save, sender=Domain)
 def attach_default_tracks(sender, instance, created, **kwargs):

@@ -1,6 +1,7 @@
 from django.contrib import admin
 
-from .models import Category, Domain, Track, Camp, Notification
+from core.models.core import Category, Domain, Track, Camp
+from core.models.notification import Notification
 
 
 admin.site.register(Category)
@@ -14,7 +15,6 @@ class CampAdmin(admin.ModelAdmin):
     list_filter = ('is_active', 'start_date', 'end_date')
     search_fields = ('title', 'description')
     
-    # تحسين طريقة اختيار الطلاب (واجهة مربّعين سهلة للنقل بينهما)
     filter_horizontal = ('students',)
 
     def get_students_count(self, obj):

@@ -1,6 +1,6 @@
 from django.shortcuts import render
 
-from core.models import Category
+from core.models.core import Category
 
 
 def category_list(request):

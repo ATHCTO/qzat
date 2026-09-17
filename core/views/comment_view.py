@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 
-from core.models import GoalComment
+from core.models.core import GoalComment
 
 
 @login_required(login_url='login')

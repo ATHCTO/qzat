@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 
-from core.models import Camp
+from core.models.core import Camp
 from user.models.custom_user import CustomUser
 
 

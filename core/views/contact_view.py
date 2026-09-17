@@ -5,7 +5,7 @@ from django.core.mail import send_mail
 
 import requests
 
-from core.models import ContactMessage
+from core.models.contact import ContactMessage
 
 
 def contact_view(request):

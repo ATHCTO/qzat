@@ -3,7 +3,7 @@ from django.contrib.auth.decorators import login_required
 from django.db.models import Count, Q
 from django.contrib import messages
 
-from core.models import Goal
+from core.models.core import Goal
 from user.models.custom_user import CustomUser
 
 

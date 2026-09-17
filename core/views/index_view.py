@@ -2,7 +2,7 @@ from django.shortcuts import render
 from django.db.models import Q, Count
 from django.contrib.auth.decorators import login_required
 
-from core.models import Goal, Domain
+from core.models.core import Goal, Domain
 from user.models.custom_user import CustomUser
 
 

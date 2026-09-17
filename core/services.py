@@ -1,14 +1,14 @@
 # core/services.py
 from django.utils import timezone
 from datetime import timedelta
-from .models import Goal, Notification
+
+from core.models.core import Goal
+from core.models.notification import Notification
+
 
 def check_and_send_goal_notifications():
     now = timezone.now()
     
-    # -------------------------------------------------------------
-    # 1. إشعارات الـ 24 ساعة
-    # -------------------------------------------------------------
     notice_24h_threshold = now + timedelta(hours=24)
     
     goals_24h = Goal.objects.filter(
@@ -27,9 +27,6 @@ def check_and_send_goal_notifications():
         goal.notified_24h = True
         goal.save(update_fields=['notified_24h'])
 
-    # -------------------------------------------------------------
-    # 2. إشعارات الساعتين
-    # -------------------------------------------------------------
     notice_2h_threshold = now + timedelta(hours=2)
     
     goals_2h = Goal.objects.filter(

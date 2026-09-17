@@ -6,7 +6,7 @@ from django.utils.dateparse import parse_datetime
 from django.core.exceptions import PermissionDenied
 from django.utils import timezone
 
-from core.models import Goal, Domain, Track, GoalComment
+from core.models.core import Goal, Domain, Track, GoalComment
 from user.models.custom_user import CustomUser
 
 
