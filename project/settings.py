@@ -76,6 +76,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'core.utils.context_processors.notifications_processor',
             ],
         },
     },
@@ -170,3 +171,28 @@ EMAIL_HOST_USER = "athercto@gmail.com"
 EMAIL_HOST_PASSWORD = "xxxxxxxxxxx"
 
 DEFAULT_FROM_EMAIL = "جمعية قيادة الذات <athercto@gmail.com>"
+
+
+# 1. الـ URLs القياسية
+CELERY_BROKER_URL = 'redis://127.0.0.1:6379/0'
+CELERY_RESULT_BACKEND = 'redis://127.0.0.1:6379/0'
+
+# 2. إعداد خيارات Transport بالطريقة المتوافقة مع Celery 5.6+
+CELERY_BROKER_TRANSPORT_OPTIONS = {
+    'protocol_version': 2,
+    'client_name': 'celery_worker',
+}
+
+CELERY_RESULT_BACKEND_TRANSPORT_OPTIONS = {
+    'protocol_version': 2,
+}
+CELERY_IMPORTS = (
+    'core.utils.tasks',
+)
+
+CELERY_TIMEZONE = TIME_ZONE
+CELERY_ENABLE_UTC = True
+
+GREENAPI_URL = os.getenv("GREENAPI_URL")
+GREENAPI_ID_INSTANCE = os.getenv("GREENAPI_ID_INSTANCE")
+GREENAPI_API_TOKEN_INSTANCE = os.getenv("GREENAPI_API_TOKEN_INSTANCE")

@@ -49,13 +49,14 @@
                             <li class="dropdown-header bg-light py-2 px-3 d-flex justify-content-between align-items-center border-bottom">
                                 <span class="fw-bold text-dark">الإشعارات</span>
                                 {% if unread_notifications_count %}
-                                    <a href="#" class="text-decoration-none small text-primary">تحديد الكل كتقروء</a>
+                                    <a href="{% url 'mark_all_notifications_read' %}" class="text-decoration-none small text-primary">تحديد الكل كمقروء</a>
                                 {% endif %}
                             </li>
                             {% if notifications %}
                                 {% for notification in notifications %}
                                     <li>
-                                        <a class="dropdown-item py-2 px-3 border-bottom {% if not notification.is_read %}bg-light fw-bold{% endif %}" href="{{ notification.get_absolute_url|default:'#' }}">
+                                        <a class="dropdown-item py-2 px-3 border-bottom {% if not notification.is_read %}bg-light fw-bold{% endif %}" 
+                                        href="{% url 'read_notification' notification.id %}">
                                             <div class="d-flex align-items-start">
                                                 <i class="bi bi-info-circle text-primary me-2 mt-1"></i>
                                                 <div>
@@ -73,7 +74,7 @@
                                 </li>
                             {% endif %}
                             <li class="bg-light text-center py-2 border-top">
-                                <a class="text-decoration-none small fw-bold text-secondary" href="#">عرض جميع الإشعارات</a>
+                                <a class="text-decoration-none small fw-bold text-secondary" href="{% url 'notification_list' %}">عرض جميع الإشعارات</a>
                             </li>
                         </ul>
                     </div>
@@ -96,7 +97,7 @@
                         </ul>
                     </div>
                 {% else %}
-                    <a href="{% url 'login' %}" class="btn btn-warning rounded-pill px-3 fw-bold shadow-sm">تسجيل الدخول</a>
+                    <a href="{% url 'login' %}" class="btn btn-gold rounded-pill px-3 fw-bold shadow-sm">تسجيل الدخول</a>
                 {% endif %}
             </div>
         </div>

@@ -1,6 +1,6 @@
 from django.urls import path
 
-from core.views import index_view, category_view, domain_view, goal_view, comment_view, supervisor_view, contact_view, camp_view
+from core.views import index_view, category_view, domain_view, goal_view, comment_view, supervisor_view, contact_view, camp_view, notification_view
 
 
 urlpatterns = []
@@ -26,6 +26,11 @@ GENERAL_URLS = [
     path('goals/<int:goal_id>/', goal_view.goal_detail_view, name='goal_detail'),
     path('comments/<int:comment_id>/edit/', comment_view.edit_comment_view, name='edit_comment'),
     path('comments/<int:comment_id>/delete/', comment_view.delete_comment_view, name='delete_comment'),
+    path('notifications/<int:notification_id>/read/', notification_view.read_and_redirect_notification, name='read_notification'),
+    path('notifications/mark-all-read/', notification_view.mark_all_notifications_as_read, name='mark_all_notifications_read'),
+    path('notifications/', notification_view.notification_list, name='notification_list'),
+    path('notifications/<int:pk>/read/', notification_view.mark_notification_as_read, name='mark_notification_as_read'),
+    path('notifications/read-all/', notification_view.mark_all_notifications_as_read, name='mark_all_notifications_as_read'),
 ]
 
 APIS_URLS = []

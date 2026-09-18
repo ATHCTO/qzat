@@ -26,6 +26,7 @@
                     <tr>
                         <th>عنوان الهدف</th>
                         <th>المجال</th>
+                        <th>تاريخ البدء</th>
                         <th>تاريخ الانتهاء</th>
                         <th>حالة الوقت</th>
                         <th>حالة الإنجاز</th>
@@ -41,7 +42,23 @@
                             </a>
                         </td>
                         <td><span class="badge bg-light text-dark border">{{ goal.domain }}</span></td>
-                        <td>{{ goal.due_datetime|date:"Y-m-d" }}</td>
+                        <td>
+                            {% if goal.start_datetime %}
+                                <span class="small text-muted">
+                                    <i class="bi bi-play-circle text-primary me-1"></i>
+                                    {{ goal.start_datetime|date:"Y-m-d" }} <small>({{ goal.start_datetime|time:"H:i" }})</small>
+                                </span>
+                            {% else %}
+                                <span class="text-muted small">-</span>
+                            {% endif %}
+                        </td>
+                        <td>
+                            <span class="small text-muted">
+                                <i class="bi bi-flag-fill text-warning me-1"></i>
+                                {{ goal.due_datetime|date:"Y-m-d" }} <small>({{ goal.due_datetime|time:"H:i" }})</small>
+                            </span>
+                        </td>
+
                         <td>
                             {% if goal.due_datetime < now and goal.status != 'COMPLETED' %}
                                 <span class="badge bg-danger">منتهي الوقت ولم يكتمل</span>
@@ -68,7 +85,7 @@
                     </tr>
                     {% empty %}
                     <tr>
-                        <td colspan="6" class="text-center py-4 text-muted">لم يقم الطالب بإضافة أهداف حتى الآن.</td>
+                        <td colspan="7" class="text-center py-4 text-muted">لم يقم الطالب بإضافة أهداف حتى الآن.</td>
                     </tr>
                     {% endfor %}
                 </tbody>

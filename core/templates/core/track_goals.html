@@ -15,7 +15,7 @@
     </div>
     <div class="d-flex justify-content-between align-items-center mb-4">
         <h5 class="fw-bold mb-0">قائمة الأهداف المسجلة</h5>
-        <button type="button" class="btn btn-warning rounded-pill px-4 fw-bold shadow-sm" data-bs-toggle="modal" data-bs-target="#addGoalModal">
+        <button type="button" class="btn btn-gold rounded-pill px-4 fw-bold shadow-sm" data-bs-toggle="modal" data-bs-target="#addGoalModal">
             <i class="bi bi-plus-lg me-1"></i> إضافة هدف جديد
         </button>
     </div>
@@ -66,10 +66,19 @@
                             {% endif %}
                         </div>
                         <div class="d-flex align-items-center gap-2 flex-wrap">
-                            <div class="text-body-secondary small bg-body p-2 px-3 rounded-pill border">
-                                <span><i class="bi bi-calendar3 text-warning me-1"></i> {{ goal.due_datetime|date:"Y-m-d" }}</span>
-                                <span class="ms-2"><i class="bi bi-clock text-warning me-1"></i> {{ goal.due_datetime|time:"H:i" }}</span>
+                            <!-- عرض تاريخ ووقت البدء والاستحقاق -->
+                            <div class="text-body-secondary small bg-body p-2 px-3 rounded-pill border d-flex align-items-center gap-2">
+                                {% if goal.start_datetime %}
+                                    <span title="تاريخ ووقت البدء">
+                                        <i class="bi bi-play-circle text-primary me-1"></i> {{ goal.start_datetime|date:"Y-m-d" }} {{ goal.start_datetime|time:"H:i" }}
+                                    </span>
+                                    <i class="bi bi-arrow-left text-muted"></i>
+                                {% endif %}
+                                <span title="تاريخ ووقت الاستحقاق">
+                                    <i class="bi bi-flag-fill text-warning me-1"></i> {{ goal.due_datetime|date:"Y-m-d" }} {{ goal.due_datetime|time:"H:i" }}
+                                </span>
                             </div>
+
                             {% if goal.status == 'COMPLETED' %}
                                 <a href="{% url 'toggle_complete_goal' goal.id %}" class="btn btn-sm btn-outline-secondary rounded-pill px-3" title="تراجع عن الإنجاز">
                                     <i class="bi bi-arrow-counterclockwise me-1"></i> تراجع
@@ -81,7 +90,7 @@
                             {% endif %}
                             {% if goal.is_editable %}
                                 <div class="d-flex gap-1">
-                                    <button type="button" class="btn btn-sm btn-outline-warning rounded-circle" data-bs-toggle="modal" data-bs-target="#editGoalModal{{ goal.id }}" title="تعديل">
+                                    <button type="button" class="btn btn-sm btn-outline-gold rounded-circle" data-bs-toggle="modal" data-bs-target="#editGoalModal{{ goal.id }}" title="تعديل">
                                         <i class="bi bi-pencil"></i>
                                     </button>
                                     <a href="{% url 'delete_goal' goal.id %}" class="btn btn-sm btn-outline-danger rounded-circle" onclick="return confirm('هل أنت تأكد من رغبتك في حذف هذا الهدف؟')" title="حذف">
@@ -93,6 +102,8 @@
                     </div>
                 </div>
             </div>
+
+            <!-- مودال تعديل الهدف -->
             {% if goal.is_editable %}
                 <div class="modal fade" id="editGoalModal{{ goal.id }}" tabindex="-1" aria-hidden="true">
                     <div class="modal-dialog modal-dialog-centered">
@@ -114,14 +125,20 @@
                                         <label class="form-label fw-semibold text-body">الوصف التفصيلي</label>
                                         <textarea class="form-control" name="description" rows="3">{{ goal.description }}</textarea>
                                     </div>
-                                    <div class="mb-3">
-                                        <label class="form-label fw-semibold text-body">الموعد الزمني للتنفيذ</label>
-                                        <input type="datetime-local" class="form-control" name="due_datetime" value="{{ goal.due_datetime|date:'Y-m-d\TH:i' }}" required>
+                                    <div class="row g-2 mb-3">
+                                        <div class="col-md-6">
+                                            <label class="form-label fw-semibold text-body">تاريخ ووقت البدء</label>
+                                            <input type="datetime-local" class="form-control" name="start_datetime" value="{{ goal.start_datetime|date:'Y-m-d\TH:i' }}">
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label class="form-label fw-semibold text-body">تاريخ ووقت الاستحقاق <span class="text-danger">*</span></label>
+                                            <input type="datetime-local" class="form-control" name="due_datetime" value="{{ goal.due_datetime|date:'Y-m-d\TH:i' }}" required>
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="modal-footer border-top bg-body-tertiary rounded-bottom-4">
                                     <button type="button" class="btn btn-outline-secondary rounded-pill px-4" data-bs-dismiss="modal">إلغاء</button>
-                                    <button type="submit" class="btn btn-warning rounded-pill px-4 fw-bold">حفظ التعديلات</button>
+                                    <button type="submit" class="btn btn-gold rounded-pill px-4 fw-bold">حفظ التعديلات</button>
                                 </div>
                             </form>
                         </div>
@@ -136,6 +153,8 @@
         {% endfor %}
     </div>
 </div>
+
+<!-- مودال إضافة هدف جديد -->
 <div class="modal fade" id="addGoalModal" tabindex="-1" aria-labelledby="addGoalModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content border-0 shadow rounded-4">
@@ -156,14 +175,20 @@
                         <label for="goalDescription" class="form-label fw-semibold text-body">الوصف التفصيلي</label>
                         <textarea class="form-control" id="goalDescription" name="description" rows="3" placeholder="ملاحظات أو تفاصيل توضيحية للهدف..."></textarea>
                     </div>
-                    <div class="mb-3">
-                        <label for="goalDateTime" class="form-label fw-semibold text-body">الموعد الزمني للتنفيذ (تاريخ ووقت) <span class="text-danger">*</span></label>
-                        <input type="datetime-local" class="form-control" id="goalDateTime" name="due_datetime" required>
+                    <div class="row g-2 mb-3">
+                        <div class="col-md-6">
+                            <label for="goalStartDateTime" class="form-label fw-semibold text-body">تاريخ ووقت البدء</label>
+                            <input type="datetime-local" class="form-control" id="goalStartDateTime" name="start_datetime">
+                        </div>
+                        <div class="col-md-6">
+                            <label for="goalDueDateTime" class="form-label fw-semibold text-body">تاريخ ووقت الاستحقاق <span class="text-danger">*</span></label>
+                            <input type="datetime-local" class="form-control" id="goalDueDateTime" name="due_datetime" required>
+                        </div>
                     </div>
                 </div>
                 <div class="modal-footer border-top bg-body-tertiary rounded-bottom-4">
                     <button type="button" class="btn btn-outline-secondary rounded-pill px-4" data-bs-dismiss="modal">إلغاء</button>
-                    <button type="submit" class="btn btn-warning rounded-pill px-4 fw-bold">حفظ الهدف</button>
+                    <button type="submit" class="btn btn-gold rounded-pill px-4 fw-bold">حفظ الهدف</button>
                 </div>
             </form>
         </div>

@@ -18,11 +18,24 @@ def track_goals_view(request, domain_id, track_id):
     if request.method == 'POST':
         title = request.POST.get('title')
         description = request.POST.get('description')
-        raw_datetime = request.POST.get('due_datetime')
+        raw_start_datetime = request.POST.get('start_datetime')
+        raw_due_datetime = request.POST.get('due_datetime')
 
-        if title and raw_datetime:
-            naive_dt = parse_datetime(raw_datetime)
-            aware_dt = make_aware(naive_dt) if naive_dt else None
+        if title and raw_due_datetime:
+            # تحويل تاريخ البدء إن وجد
+            aware_start_dt = None
+            if raw_start_datetime:
+                naive_start_dt = parse_datetime(raw_start_datetime)
+                aware_start_dt = make_aware(naive_start_dt) if naive_start_dt else None
+
+            # تحويل تاريخ النهاية/الاستحقاق
+            naive_due_dt = parse_datetime(raw_due_datetime)
+            aware_due_dt = make_aware(naive_due_dt) if naive_due_dt else None
+
+            # التحقق المنطقي من التواريخ في حالة الإدخال اليدوي عبر POST
+            if aware_start_dt and aware_due_dt and aware_due_dt <= aware_start_dt:
+                messages.error(request, 'عفواً، يجب أن يكون تاريخ الاستحقاق بعد تاريخ البدء!')
+                return redirect('track_goals', domain_id=domain.id, track_id=track.id)
 
             Goal.objects.create(
                 user=request.user,
@@ -30,7 +43,8 @@ def track_goals_view(request, domain_id, track_id):
                 track=track,
                 title=title,
                 description=description,
-                due_datetime=aware_dt
+                start_datetime=aware_start_dt,
+                due_datetime=aware_due_dt
             )
             messages.success(request, 'تمت إضافة الهدف بنجاح!')
             return redirect('track_goals', domain_id=domain.id, track_id=track.id)
@@ -44,6 +58,7 @@ def track_goals_view(request, domain_id, track_id):
     }
     return render(request, 'core/track_goals.html', context)
 
+
 @login_required(login_url='login')
 def edit_goal_view(request, goal_id):
     goal = get_object_or_404(Goal, id=goal_id, user=request.user)
@@ -55,14 +70,31 @@ def edit_goal_view(request, goal_id):
     if request.method == 'POST':
         title = request.POST.get('title')
         description = request.POST.get('description')
-        raw_datetime = request.POST.get('due_datetime')
+        raw_start_datetime = request.POST.get('start_datetime')
+        raw_due_datetime = request.POST.get('due_datetime')
 
-        if title and raw_datetime:
-            naive_dt = parse_datetime(raw_datetime)
-            aware_dt = make_aware(naive_dt) if naive_dt else None
+        if title and raw_due_datetime:
+            aware_start_dt = None
+            if raw_start_datetime:
+                naive_start_dt = parse_datetime(raw_start_datetime)
+                aware_start_dt = make_aware(naive_start_dt) if naive_start_dt else None
+
+            naive_due_dt = parse_datetime(raw_due_datetime)
+            aware_due_dt = make_aware(naive_due_dt) if naive_due_dt else None
+
+            if aware_start_dt and aware_due_dt and aware_due_dt <= aware_start_dt:
+                messages.error(request, 'عفواً، يجب أن يكون تاريخ الاستحقاق بعد تاريخ البدء!')
+                return redirect('track_goals', domain_id=goal.domain.id, track_id=goal.track.id)
+
             goal.title = title
             goal.description = description
-            goal.due_datetime = aware_dt
+            goal.start_datetime = aware_start_dt
+            goal.due_datetime = aware_due_dt
+
+            # إعادة ضبط حالة الإشعارات ليعاد جدولة التنبيهات مع الموعد الجديد
+            goal.notified_24h = False
+            goal.notified_2h = False
+
             goal.save()
             messages.success(request, 'تم تعديل الهدف بنجاح!')
         
@@ -79,6 +111,7 @@ def delete_goal_view(request, goal_id):
         messages.success(request, 'تم حذف الهدف بنجاح!')
 
     return redirect('track_goals', domain_id=goal.domain.id, track_id=goal.track.id)
+
 
 @login_required(login_url='login')
 def goal_detail_view(request, goal_id):
@@ -110,6 +143,7 @@ def goal_detail_view(request, goal_id):
         'comments': comments,
     }
     return render(request, 'core/goal_detail.html', context)
+
 
 def toggle_complete_goal_view(request, goal_id):
     goal = get_object_or_404(Goal, id=goal_id)

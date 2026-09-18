@@ -7,3 +7,5 @@ class CoreConfig(AppConfig):
 
     def ready(self):
         import core.apis.signals.track_signal
+        import core.apis.signals.notification_signals
+        import core.apis.signals.tasks_signals

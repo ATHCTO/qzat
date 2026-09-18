@@ -66,7 +66,10 @@ class Goal(models.Model):
     notes = models.TextField(blank=True, verbose_name='ملاحظات المشرف/الطالب')
 
     notified_24h = models.BooleanField(default=False)
-    notified_2h = models.BooleanField(default=False)
+    notified_3h = models.BooleanField(default=False)
+    
+    task_id_24h = models.CharField(max_length=255, null=True, blank=True)
+    task_id_3h = models.CharField(max_length=255, null=True, blank=True)
     
     created_at = models.DateTimeField(auto_now_add=True, verbose_name='تاريخ الإنشاء')
     updated_at = models.DateTimeField(auto_now=True, verbose_name='تاريخ التحديث')

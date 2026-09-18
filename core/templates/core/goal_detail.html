@@ -5,14 +5,19 @@
 {% block content %}
 <div class="container py-4">
     <div class="card border-0 shadow-sm rounded-4 p-4 mb-4">
-        <div class="d-flex justify-content-between align-items-center mb-3">
+        <div class="d-flex justify-content-between align-items-center mb-3 flex-wrap gap-2">
             <span class="badge bg-gold text-white px-3 py-2 rounded-pill">{{ goal.domain.name }} - {{ goal.track.name }}</span>
-            <small class="text-muted"><i class="fas fa-calendar me-1"></i> تاريخ الإنهاء: {{ goal.due_datetime|date:"Y-m-d H:i" }}</small>
+            <div class="d-flex align-items-center gap-3 text-muted small">
+                {% if goal.start_datetime %}
+                    <span><i class="fas fa-play text-primary me-1"></i> تاريخ البدء: {{ goal.start_datetime|date:"Y-m-d H:i" }}</span>
+                {% endif %}
+                <span><i class="fas fa-calendar-alt text-warning me-1"></i> تاريخ الإنهاء: {{ goal.due_datetime|date:"Y-m-d H:i" }}</span>
+            </div>
         </div>
         <h3 class="fw-bold text-olive mb-2">{{ goal.title }}</h3>
         <p class="text-secondary mb-3">{{ goal.description|default:"لا يوجد وصف إضافي للهدف." }}</p>
         <div class="d-flex align-items-center text-muted small">
-            <i class="fas fa-user me-1"></i> صاحبة/صاحب الهدف: <strong class="ms-1">{{ goal.user.get_full_name|default:goal.user.username }}</strong>
+            <i class="fas fa-user me-1"></i> صاحب الهدف: <strong class="ms-1">{{ goal.user.get_full_name|default:goal.user.username }}</strong>
         </div>
     </div>
     <div class="card border-0 shadow-sm rounded-4 p-4">
