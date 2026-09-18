@@ -50,6 +50,9 @@ def track_goals_view(request, domain_id, track_id):
             return redirect('track_goals', domain_id=domain.id, track_id=track.id)
 
     goals = Goal.objects.filter(user=request.user, domain=domain, track=track).order_by('due_datetime')
+
+    for goal in goals:
+        goal.update_status()
     
     context = {
         'domain': domain,

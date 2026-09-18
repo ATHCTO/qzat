@@ -1,3 +1,4 @@
+from django import views
 from django.urls import path
 
 from core.views import index_view, category_view, domain_view, goal_view, comment_view, supervisor_view, contact_view, camp_view, notification_view
@@ -21,6 +22,7 @@ GENERAL_URLS = [
     path('support/', index_view.support_view, name='support'),
     path('supervisor/students/', supervisor_view.supervisor_students_list_view, name='supervisor_students_list'),
     path('supervisor/students/<int:student_id>/', supervisor_view.supervisor_student_detail_view, name='supervisor_student_detail'),
+    path('supervisor/goal/<int:goal_id>/extend/', supervisor_view.extend_goal_time_view, name='extend_goal_time'),
     path('camps/', camp_view.camp_list_view, name='camp_list'),
     path('camp/<int:camp_id>/', camp_view.camp_detail_view, name='camp_detail'),
     path('goals/<int:goal_id>/', goal_view.goal_detail_view, name='goal_detail'),

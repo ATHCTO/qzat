@@ -93,6 +93,35 @@ class Goal(models.Model):
             return int(diff.total_seconds() // 60)
         return 0
     
+    @property
+    def dynamic_status(self):
+        """
+        تحدد الحالة الحقيقية للحسابات والواجهة دون الانتظار لحفظها في قاعدة البيانات
+        """
+        # إذا تم إنجاز الهدف لا نتعدل عليه
+        if self.status == self.Status.COMPLETED:
+            return self.Status.COMPLETED
+
+        # إذا تجاوز الوقت الحالي تاريخ الاستحقاق
+        if timezone.now() > self.due_datetime:
+            return self.Status.DELAYED
+
+        return self.status
+
+    def update_status(self):
+        """
+        تحديث حالة الهدف في قاعدة البيانات إذا أصبح متأخراً
+        """
+        if self.status != self.Status.COMPLETED and timezone.now() > self.due_datetime:
+            if self.status != self.Status.DELAYED:
+                self.status = self.Status.DELAYED
+                self.save(update_fields=['status'])
+        return self.status
+
+    def is_delayed(self):
+        """ترجع True إذا كان الهدف متأخراً وغير مكتمل"""
+        return self.dynamic_status == self.Status.DELAYED
+    
     
 class Camp(models.Model):
     title = models.CharField(max_length=255, verbose_name='اسم المعسكر')
