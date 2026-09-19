@@ -20,7 +20,7 @@ def schedule_goal_notifications(sender, instance, created, **kwargs):
 
     # 1. جدولة إشعار الـ 24 ساعة
     if instance.due_datetime:
-        eta_24h = instance.due_datetime - timedelta(seconds=10)
+        eta_24h = instance.due_datetime - timedelta(days=1)
         if eta_24h > now:
             if instance.task_id_24h:
                 app.control.revoke(instance.task_id_24h, terminate=True)
